@@ -61,6 +61,10 @@
           transform: none !important;
           filter: none !important;
         }
+
+        .parallax-item {
+          transform: none !important;
+        }
       }
 
       [data-animate] {
@@ -144,6 +148,14 @@
         mix-blend-mode: multiply;
         opacity: 0.55;
       }
+
+      .parallax-item {
+        --parallax-x: 0px;
+        --parallax-y: 0px;
+        transform: translate3d(var(--parallax-x), var(--parallax-y), 0);
+        transition: transform 0.9s var(--ease-soft);
+        will-change: transform;
+      }
     </style>
   </head>
   <body class="bg-sand text-ink antialiased selection:bg-ink/10 selection:text-slate overflow-x-hidden">
@@ -204,7 +216,9 @@
 
       <main id="home" class="mx-auto max-w-6xl px-6 pb-24 pt-16 sm:pt-24">
         <section class="relative grid gap-12 md:grid-cols-[1.1fr,0.9fr]">
-          <div aria-hidden="true" class="glow-spot absolute -left-24 top-0 hidden h-72 w-72 rounded-[999px] bg-ash blur-[140px] sm:block"></div>
+          <div aria-hidden="true" data-parallax data-depth="0.28" class="parallax-item glow-spot absolute -left-24 top-0 hidden h-72 w-72 rounded-[999px] bg-ash blur-[140px] sm:block"></div>
+          <div aria-hidden="true" data-parallax data-depth="0.18" class="parallax-item pointer-events-none absolute -right-10 top-14 hidden h-48 w-48 rounded-[32px] border border-white/40 bg-white/30 blur-3xl sm:block"></div>
+          <div aria-hidden="true" data-parallax data-depth="0.1" class="parallax-item pointer-events-none absolute -right-10 bottom-6 hidden h-72 w-72 rounded-full bg-ash/70 blur-[160px] lg:block"></div>
           <div data-animate="fade-up" class="space-y-8">
             <div class="floating-badge inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-slate shadow-soft">
               <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
@@ -318,7 +332,8 @@
           </div>
         </section>
 
-        <section id="projects" class="mt-24 border-t border-black/5 pt-16 scroll-mt-24">
+        <section id="projects" class="relative mt-24 border-t border-black/5 pt-16 scroll-mt-24">
+          <div aria-hidden="true" data-parallax data-depth="0.12" class="parallax-item pointer-events-none absolute -left-16 top-16 hidden h-60 w-60 rounded-full bg-ash blur-[160px] lg:block"></div>
           <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div data-animate="fade-right">
               <p class="text-sm uppercase tracking-[0.3em] text-accent">Projects</p>
@@ -369,7 +384,8 @@
           </div>
         </section>
 
-        <section id="contact" class="mt-24 border-t border-black/5 pt-16 scroll-mt-24">
+        <section id="contact" class="relative mt-24 border-t border-black/5 pt-16 scroll-mt-24">
+          <div aria-hidden="true" data-parallax data-depth="0.14" class="parallax-item pointer-events-none absolute right-0 top-24 hidden h-64 w-64 rounded-full bg-white/60 blur-[140px] lg:block"></div>
           <div class="grid gap-10 lg:grid-cols-[0.8fr,1.2fr]">
             <div data-animate="fade-right">
               <p class="text-sm uppercase tracking-[0.3em] text-accent">Contact</p>
@@ -509,6 +525,53 @@
           setMobileNavState(false);
         }
       });
+
+      const parallaxTargets = document.querySelectorAll('[data-parallax]');
+      const allowParallax = parallaxTargets.length > 0 && !prefersReducedMotion;
+
+      if (allowParallax) {
+        const pointerMediaQuery = window.matchMedia('(pointer: fine)');
+        let pointerX = 0;
+        let pointerY = 0;
+        let rafId = null;
+
+        const applyParallax = () => {
+          parallaxTargets.forEach((element) => {
+            const depth = parseFloat(element.dataset.depth ?? '0.18');
+            const rect = element.getBoundingClientRect();
+            const viewportOffset = ((rect.top + rect.height / 2 - window.innerHeight / 2) / window.innerHeight) * -60;
+            const scrollComponent = viewportOffset * depth;
+            const pointerComponentX = pointerX * depth * 12;
+            const pointerComponentY = pointerY * depth * 12;
+
+            element.style.setProperty('--parallax-x', `${pointerComponentX}px`);
+            element.style.setProperty('--parallax-y', `${scrollComponent + pointerComponentY}px`);
+          });
+        };
+
+        const requestParallaxFrame = () => {
+          if (rafId) return;
+          rafId = requestAnimationFrame(() => {
+            applyParallax();
+            rafId = null;
+          });
+        };
+
+        if (pointerMediaQuery.matches) {
+          window.addEventListener('pointermove', (event) => {
+            const { innerWidth, innerHeight } = window;
+            if (!innerWidth || !innerHeight) return;
+            pointerX = (event.clientX / innerWidth - 0.5) * 2;
+            pointerY = (event.clientY / innerHeight - 0.5) * 2;
+            requestParallaxFrame();
+          });
+        }
+
+        window.addEventListener('scroll', requestParallaxFrame, { passive: true });
+        window.addEventListener('resize', requestParallaxFrame);
+
+        requestParallaxFrame();
+      }
     </script>
   </body>
 </html>
