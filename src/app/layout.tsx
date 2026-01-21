@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Inter, Syne, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import SmoothScroll from '@/components/providers/SmoothScroll';
 import Header from '@/components/layout/Header';
@@ -7,6 +7,8 @@ import Footer from '@/components/layout/Footer';
 import CustomCursor from '@/components/ui/CustomCursor';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const syne = Syne({ subsets: ['latin'], variable: '--font-syne' });
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' });
 
 export const metadata: Metadata = {
   title: 'Prashant Chataut — Portfolio',
@@ -19,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="bg-sand text-ink antialiased selection:bg-ink/10 selection:text-slate">
+    <html lang="en" className={`${inter.variable} ${syne.variable} ${spaceGrotesk.variable}`}>
+      <body className="bg-sand text-ink antialiased selection:bg-accent/30 selection:text-ink font-sans">
         <SmoothScroll>
           <CustomCursor />
           <Header />
