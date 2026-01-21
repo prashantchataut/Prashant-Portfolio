@@ -20,28 +20,28 @@ export default function About() {
 
                 {/* Left: Text Content */}
                 <motion.div style={{ y: textY, opacity }} className="relative z-10 order-2 lg:order-1">
-                    <p className="text-sm uppercase tracking-[0.3em] text-accent mb-6">About</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-accent mb-6 font-mono">System.Identity</p>
                     <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink mb-8 leading-tight">
-                        Measured curiosity, <br /><span className="text-mist">deliberate practice.</span>
+                        Analytical thinking. <br /><span className="text-mist">Generative workflows.</span>
                     </h2>
 
                     <div className="space-y-6 text-lg leading-relaxed text-mist">
                         <p>
-                            I am an analytical thinker with a quiet obsession for structure. My work examines the relationships between philosophy, science, and language, translating them into digital experiences with restrained clarity.
+                            I don't just write code; I orchestrate intelligence. My work focuses on <strong>Vibe Coding</strong>—blending prompt engineering, workflow automation, and generative AI to solve complex problems with speed and precision.
                         </p>
                         <p>
-                            From drafting essays to refining minimal interfaces, my process favors careful research and sharp reasoning. I build systems that reduce friction and make intent visible.
+                            With a background in analytical thinking and over a year of hands-on experience in advanced AI systems, I build tools that feel like magic. I am curious, disciplined, and obsessed with the intersection of human creativity and machine logic.
                         </p>
                     </div>
 
                     <div className="mt-12 flex gap-12 border-t border-ink/10 pt-8">
                         <div>
                             <p className="text-4xl font-bold text-ink">3+</p>
-                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Years Exp.</p>
+                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Years Tech</p>
                         </div>
                         <div>
-                            <p className="text-4xl font-bold text-ink">20+</p>
-                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Projects</p>
+                            <p className="text-4xl font-bold text-ink">Prody</p>
+                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Latest Build</p>
                         </div>
                     </div>
                 </motion.div>
@@ -49,9 +49,9 @@ export default function About() {
                 {/* Right: Creative Image Reveal */}
                 <div className="relative h-[500px] w-full order-1 lg:order-2">
                     <ParallaxImage
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=2787&auto=format&fit=crop" // Placeholder image
-                        alt="Prashant Chataut"
-                        className="grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
+                        src="/images/about-abstract.png"
+                        alt="Abstract AI Mind"
+                        className="grayscale hover:grayscale-0 transition-all duration-700 ease-in-out mix-blend-multiply"
                         containerClassName="rounded-2xl h-full w-full shadow-2xl"
                     />
 

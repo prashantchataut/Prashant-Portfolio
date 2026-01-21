@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Instagram, Github } from "lucide-react";
 import { cn } from "@/lib/utils";
 import MagneticButton from "../ui/MagneticButton";
 
@@ -13,7 +13,20 @@ const navLinks = [
     { name: "Contact", href: "#contact" },
 ];
 
-export default function Navbar() {
+const socialLinks = [
+    {
+        name: 'Instagram',
+        href: 'https://www.instagram.com/prashantchataut_/',
+        icon: Instagram,
+    },
+    {
+        name: 'GitHub',
+        href: 'https://github.com/prashantchataut',
+        icon: Github,
+    },
+];
+
+export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
 
@@ -30,7 +43,9 @@ export default function Navbar() {
             <motion.header
                 className={cn(
                     "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-                    scrolled ? "py-4" : "py-6"
+                    scrolled
+                        ? "py-4 bg-sand/80 backdrop-blur-lg shadow-sm"
+                        : "py-6 bg-transparent"
                 )}
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -102,9 +117,30 @@ export default function Navbar() {
                                 </motion.div>
                             ))}
                         </nav>
+
+                        {/* Social Links in Mobile Menu */}
+                        <motion.div
+                            className="flex gap-6 mt-12"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                        >
+                            {socialLinks.map((social) => (
+                                <Link
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-3 rounded-full bg-ink/5 hover:bg-ink hover:text-sand transition-all"
+                                >
+                                    <social.icon className="w-6 h-6" />
+                                </Link>
+                            ))}
+                        </motion.div>
                     </motion.div>
                 )}
             </AnimatePresence>
         </>
     );
 }
+

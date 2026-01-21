@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --sand: #050505;
+    /* Deep Void Black */
+    --ink: #f0f0f0;
+    /* Signal White */
+    --mist: #888888;
+    /* Industrial Grey */
+    --accent: #ff3333;
+    /* Warning Red */
+    --slate: #1a1a1a;
+    --ash: #2a2a2a;
+}
+
+body {
+    color: var(--ink);
+    background: var(--sand);
+    overflow-x: hidden;
+    cursor: none;
+    /* Hide default cursor for custom one */
+}
+
+/* Liquid Metal Distortion */
+.liquid-metal {
+    filter: url('#liquid-filter');
+}
+
+@keyframes glitch-anim {
+    0% {
+        transform: translate(0)
+    }
+
+    20% {
+        transform: translate(-2px, 2px)
+    }
+
+    40% {
+        transform: translate(-2px, -2px)
+    }
+
+    60% {
+        transform: translate(2px, 2px)
+    }
+
+    80% {
+        transform: translate(2px, -2px)
+    }
+
+    100% {
+        transform: translate(0)
+    }
+}
+
+.glitch-text:hover {
+    animation: glitch-anim 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+    color: var(--accent);
+}
+
+/* Lenis Smooth Scroll */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* Custom Scroll Line Animation */
+@keyframes scroll-line {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.animate-scroll-line {
+    animation: scroll-line 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
