@@ -27,10 +27,10 @@ export default function About() {
 
                     <div className="space-y-6 text-lg leading-relaxed text-mist">
                         <p>
-                            I don't just write code; I orchestrate intelligence. My work focuses on <strong>Vibe Coding</strong>—blending prompt engineering, workflow automation, and generative AI to solve complex problems with speed and precision.
+                            I build systems that bridge the gap between human intent and machine logic. My approach blends <strong>rigorous engineering</strong> with a deep understanding of user interaction to create tools that feel seamless.
                         </p>
                         <p>
-                            With a background in analytical thinking and over a year of hands-on experience in advanced AI systems, I build tools that feel like magic. I am curious, disciplined, and obsessed with the intersection of human creativity and machine logic.
+                            With a background in analytical thinking, I am obsessed with precision. I don't just ship code; I design resilient, scalable, and intuitive interfaces that stand the test of time.
                         </p>
                     </div>
 

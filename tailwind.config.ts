@@ -9,16 +9,16 @@ const config: Config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Inter', 'ui-sans-serif', 'system-ui'],
-                display: ['Impact', 'Inter', 'system-ui'], // Placeholder for bold typography
+                sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui'],
+                mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
             },
             colors: {
-                sand: '#f9f7f4',
-                ash: '#f0eeea',
-                ink: '#0f172a',
-                slate: '#1e293b',
-                mist: '#4b5563',
-                accent: '#9ca3af',
+                sand: '#F5F5F0', // Slightly warmer off-white
+                ash: '#F0F0F0',   // Neutral light gray
+                ink: '#111111',   // Deep almost-black
+                slate: '#1A1A1A', // Dark gray
+                mist: '#666666',  // Medium gray text
+                accent: '#3B82F6', // Deep Electric Blue (as requested)
             },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
