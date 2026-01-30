@@ -14,6 +14,18 @@ const features = [
     "AI companions that guide reflection without preaching"
 ];
 
+const latestUpdate = {
+    version: "1.2.0",
+    title: "Haven AI: Resilience & Warmth",
+    summary: "Major reliability upgrade for the Haven AI Service ('Anti-Stop Policy') and a completely redesigned, empathetic onboarding experience.",
+    changes: [
+        "Implemented 'Anti-Stop' policy: AI service now degrades gracefully into Offline Mode.",
+        "Redesigned Onboarding Flow: Added dedicated Haven introduction screen.",
+        "Hardened System Prompts: Enforced strict therapeutic boundaries.",
+        "UI Polish: Flattened design aesthetics and updated icon assets."
+    ]
+};
+
 function TiltCard({ children }: { children: React.ReactNode }) {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -100,16 +112,28 @@ export default function Projects() {
                         </div>
 
                         <div className="p-8 bg-white rounded-2xl border border-ink/5 shadow-sm hover:border-accent/20 transition-all">
-                            <h4 className="text-lg font-bold text-ink mb-2">Designed for Clarity</h4>
-                            <p className="text-sm text-mist italic font-serif">
-                                "You don’t need deep theory. You need the right question at the right time."
+                            <div className="flex items-center gap-2 mb-4">
+                                <span className="px-2 py-0.5 bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-wider rounded">Latest Update v{latestUpdate.version}</span>
+                                <h4 className="text-lg font-bold text-ink">{latestUpdate.title}</h4>
+                            </div>
+                            <p className="text-sm text-mist leading-relaxed mb-4">
+                                {latestUpdate.summary}
                             </p>
+                            <ul className="space-y-2">
+                                {latestUpdate.changes.map((change, i) => (
+                                    <li key={i} className="text-xs text-mist flex items-start gap-2">
+                                        <span className="w-1 h-1 bg-accent rounded-full mt-1.5 flex-shrink-0" />
+                                        {change}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         <div className="flex flex-wrap gap-6 pt-4">
                             <MagneticButton>
                                 <Link
-                                    href="#"
+                                    href="https://github.com/prashantchataut/Prody/releases/latest"
+                                    target="_blank"
                                     className="px-8 py-4 bg-ink text-sand rounded-full font-bold shadow-lg shadow-ink/20 hover:shadow-xl transition-all text-sm flex items-center gap-2 group"
                                 >
                                     Download Prody
@@ -135,12 +159,12 @@ export default function Projects() {
                                 <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-accent/20 rounded-full blur-3xl mix-blend-multiply animate-pulse" />
                                 <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-slate/10 rounded-full blur-3xl mix-blend-multiply animate-pulse" style={{ animationDelay: '1s' }} />
 
-                                <div className="relative z-10 w-[300px] h-full transform translate-z-20">
+                                <div className="relative z-10 w-full h-[80%] transform translate-z-20 px-8">
                                     <Image
-                                        src="/images/prody-mockup.png"
-                                        alt="Prody App Interface"
+                                        src="/assets/changelog/haven_onboarding_showcase.png"
+                                        alt="Haven AI: Resilience & Warmth Showcase"
                                         fill
-                                        className="object-contain drop-shadow-2xl"
+                                        className="object-contain drop-shadow-2xl rounded-xl"
                                         style={{ transform: "translateZ(50px)" }}
                                     />
                                 </div>
