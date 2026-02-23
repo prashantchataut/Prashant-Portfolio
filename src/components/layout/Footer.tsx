@@ -20,15 +20,15 @@ export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="relative bg-ink text-sand py-20 px-6 overflow-hidden">
+        <footer id="contact" className="relative bg-ash text-ink py-20 px-6 overflow-hidden border-t border-border">
             <div className="mx-auto max-w-7xl">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
                     <div className="space-y-6">
                         <h2 className="text-5xl md:text-7xl font-bold tracking-tighter">
                             Let's work <br />
-                            <span className="text-mist">together.</span>
+                            <span className="text-accent">together.</span>
                         </h2>
-                        <p className="text-xl text-sand/80 max-w-md">
+                        <p className="text-xl text-mist max-w-md">
                             Available for freelance projects and open to new opportunities.
                         </p>
                     </div>
@@ -36,7 +36,7 @@ export default function Footer() {
                     <div className="flex flex-col justify-end items-start md:items-end gap-4">
                         <Link
                             href="mailto:prashantchataut8@gmail.com"
-                            className="text-2xl md:text-3xl font-medium hover:text-mist transition-colors underline decoration-1 underline-offset-8"
+                            className="text-2xl md:text-3xl font-medium hover:text-accent transition-colors underline decoration-1 underline-offset-8 decoration-border"
                         >
                             prashantchataut8@gmail.com
                         </Link>
@@ -44,14 +44,14 @@ export default function Footer() {
                             {socialLinks.map((social) => (
                                 <motion.div
                                     key={social.name}
-                                    whileHover={{ scale: 1.1 }}
+                                    whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                 >
                                     <Link
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex items-center gap-2 text-lg hover:text-mist transition-colors uppercase tracking-wide"
+                                        className="group flex items-center gap-2 text-lg text-mist hover:text-accent transition-colors uppercase tracking-wide"
                                     >
                                         <social.icon className="w-5 h-5 transition-transform group-hover:rotate-12" />
                                         {social.name}
@@ -62,7 +62,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="border-t border-sand/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-sand/60">
+                <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-mist">
                     <p>&copy; {currentYear} Prashant Chataut.</p>
                     <p>Designed &amp; Built with passion.</p>
                 </div>

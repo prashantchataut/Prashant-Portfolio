@@ -27,14 +27,14 @@ export default function About() {
 
                     <div className="space-y-6 text-lg leading-relaxed text-mist">
                         <p>
-                            I build systems that bridge the gap between human intent and machine logic. My approach blends <strong>rigorous engineering</strong> with a deep understanding of user interaction to create tools that feel seamless.
+                            I build systems that bridge the gap between human intent and machine logic. My approach blends <strong className="text-ink">rigorous engineering</strong> with a deep understanding of user interaction to create tools that feel seamless.
                         </p>
                         <p>
                             With a background in analytical thinking, I am obsessed with precision. I don't just ship code; I design resilient, scalable, and intuitive interfaces that stand the test of time.
                         </p>
                     </div>
 
-                    <div className="mt-12 flex gap-12 border-t border-ink/10 pt-8">
+                    <div className="mt-12 flex gap-12 border-t border-border pt-8">
                         <div>
                             <p className="text-4xl font-bold text-ink">3+</p>
                             <p className="text-sm text-mist mt-1 uppercase tracking-wider">Years Tech</p>
@@ -51,12 +51,12 @@ export default function About() {
                     <ParallaxImage
                         src="/images/about-abstract.png"
                         alt="Abstract AI Mind"
-                        className="grayscale hover:grayscale-0 transition-all duration-700 ease-in-out mix-blend-multiply"
-                        containerClassName="rounded-2xl h-full w-full shadow-2xl"
+                        className="grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
+                        containerClassName="rounded-2xl h-full w-full overflow-hidden"
                     />
 
-                    {/* Dekor Element */}
-                    <div className="absolute -bottom-10 -left-10 w-24 h-24 bg-ink rounded-full mix-blend-multiply opacity-20 animate-pulse" />
+                    {/* Decorative accent circle */}
+                    <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-accent/10 blur-2xl pointer-events-none" />
                 </div>
 
             </div>

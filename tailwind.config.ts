@@ -13,12 +13,14 @@ const config: Config = {
                 mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
             },
             colors: {
-                sand: '#F5F5F0', // Slightly warmer off-white
-                ash: '#F0F0F0',   // Neutral light gray
-                ink: '#111111',   // Deep almost-black
-                slate: '#1A1A1A', // Dark gray
-                mist: '#666666',  // Medium gray text
-                accent: '#3B82F6', // Deep Electric Blue (as requested)
+                sand: 'var(--sand)',
+                ash: 'var(--ash)',
+                ink: 'var(--ink)',
+                slate: 'var(--slate)',
+                mist: 'var(--mist)',
+                accent: 'var(--accent)',
+                surface: 'var(--surface)',
+                border: 'var(--border)',
             },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

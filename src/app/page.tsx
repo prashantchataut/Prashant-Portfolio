@@ -6,12 +6,12 @@ import Projects from "@/components/home/Projects";
 
 export default function Home() {
     return (
-        <main className="min-h-screen bg-sand text-ink selection:bg-accent selection:text-sand">
+        <>
             <Hero />
             <Philosophy />
             <About />
             <Skills />
             <Projects />
-        </main>
+        </>
     );
 }

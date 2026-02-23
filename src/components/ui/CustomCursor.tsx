@@ -1,42 +1,41 @@
 "use client";
-import { useEffect, useState, useRef } from 'react';
-import { motion, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { useEffect, useState, useCallback } from 'react';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 
 export default function CustomCursor() {
     const [isHovered, setIsHovered] = useState(false);
-    const [isPointer, setIsPointer] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(false);
 
-    // Spring physics for smooth movement
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
+    const mouseX = useMotionValue(-100);
+    const mouseY = useMotionValue(-100);
 
-    const smoothOptions = { damping: 20, stiffness: 300, mass: 0.5 };
-    const smoothX = useSpring(mouseX, smoothOptions);
-    const smoothY = useSpring(mouseY, smoothOptions);
+    const smoothX = useSpring(mouseX, { damping: 25, stiffness: 200 });
+    const smoothY = useSpring(mouseY, { damping: 25, stiffness: 200 });
 
-    const cursorSize = isHovered ? 80 : 12; // Base size
+    const cursorSize = isHovered ? 60 : 10;
 
     useEffect(() => {
+        // Only show on devices with a fine pointer
+        const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+        setIsDesktop(hasFinePointer);
+        if (!hasFinePointer) return;
+
         const manageMouseMove = (e: MouseEvent) => {
-            const { clientX, clientY } = e;
-            mouseX.set(clientX - cursorSize / 2);
-            mouseY.set(clientY - cursorSize / 2);
+            mouseX.set(e.clientX - cursorSize / 2);
+            mouseY.set(e.clientY - cursorSize / 2);
         };
 
         const manageMouseOver = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            // Check for interactive elements
             if (['A', 'BUTTON', 'INPUT', 'TEXTAREA', 'LABEL'].includes(target.tagName) || target.closest('[data-cursor="hover"]')) {
                 setIsHovered(true);
-                setIsPointer(true);
             } else {
                 setIsHovered(false);
-                setIsPointer(false);
             }
         };
 
-        window.addEventListener('mousemove', manageMouseMove);
-        window.addEventListener('mouseover', manageMouseOver);
+        window.addEventListener('mousemove', manageMouseMove, { passive: true });
+        window.addEventListener('mouseover', manageMouseOver, { passive: true });
 
         return () => {
             window.removeEventListener('mousemove', manageMouseMove);
@@ -44,40 +43,28 @@ export default function CustomCursor() {
         };
     }, [cursorSize, mouseX, mouseY]);
 
+    if (!isDesktop) return null;
+
     return (
-        <>
-            <motion.div
-                className="fixed left-0 top-0 z-[9999] pointer-events-none rounded-full bg-ink mix-blend-difference"
-                style={{
-                    left: smoothX,
-                    top: smoothY,
-                    width: cursorSize,
-                    height: cursorSize,
-                    pointerEvents: 'none',
-                }}
-                animate={{
-                    width: cursorSize,
-                    height: cursorSize,
-                    scale: isHovered ? 1 : 1,
-                }}
-                transition={{
-                    type: "spring",
-                    damping: 20,
-                    stiffness: 300,
-                    mass: 0.1
-                }}
-            >
-                {isHovered && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0 }}
-                        className="w-full h-full flex items-center justify-center"
-                    >
-                        <div className="w-2 h-2 bg-sand rounded-full" />
-                    </motion.div>
-                )}
-            </motion.div>
-        </>
+        <motion.div
+            className="fixed left-0 top-0 z-[9999] pointer-events-none rounded-full bg-accent"
+            style={{
+                left: smoothX,
+                top: smoothY,
+                width: cursorSize,
+                height: cursorSize,
+                mixBlendMode: 'difference',
+            }}
+            animate={{
+                width: cursorSize,
+                height: cursorSize,
+            }}
+            transition={{
+                type: "spring",
+                damping: 20,
+                stiffness: 300,
+                mass: 0.1
+            }}
+        />
     );
 }

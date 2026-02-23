@@ -2,36 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Dark Mode (Default) ─── */
 :root {
     --sand: #0a0a0a;
-    /* Rich Black */
-    --ink: #ffffff;
-    /* Pure White */
-    --mist: #888888;
-    /* Neutral Grey */
-    --accent: #CDDC39;
-    /* Lime Green */
-    --slate: #1a1a1a;
-    --ash: #2a2a2a;
-
-    --font-primary: var(--font-syne), sans-serif;
-    --font-secondary: var(--font-space), monospace;
+    --ink: #f0f0f0;
+    --mist: #8a8a8a;
+    --accent: #3B82F6;
+    --slate: #141414;
+    --ash: #1a1a1a;
+    --surface: #111111;
+    --border: rgba(255, 255, 255, 0.08);
 }
 
-/* Lando-Inspired Kinetic Grid */
+/* ─── Light Mode ─── */
+[data-theme="light"] {
+    --sand: #FAFAF8;
+    --ink: #111111;
+    --mist: #666666;
+    --accent: #2563EB;
+    --slate: #E8E8E4;
+    --ash: #F0F0EC;
+    --surface: #FFFFFF;
+    --border: rgba(0, 0, 0, 0.08);
+}
+
 body {
     color: var(--ink);
     background-color: var(--sand);
-    background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 60px 60px;
     overflow-x: hidden;
-    cursor: none;
-    font-family: var(--font-secondary);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Solid Reveal Animation (Curtain Effect) */
+/* Desktop-only custom cursor */
+@media (pointer: fine) {
+    body {
+        cursor: none;
+    }
+}
+
+/* Reveal Animation */
 @keyframes reveal-up {
     0% {
         transform: translateY(100%);
@@ -60,7 +70,7 @@ body {
     color: var(--sand);
 }
 
-/* Custom Scroll Line Animation */
+/* Scroll Line Animation */
 @keyframes scroll-line {
     0% {
         transform: translateY(-100%);
@@ -73,4 +83,21 @@ body {
 
 .animate-scroll-line {
     animation: scroll-line 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+}
+
+/* Smooth theme transitions for all themed elements */
+*,
+*::before,
+*::after {
+    transition-property: background-color, border-color;
+    transition-duration: 0.3s;
+    transition-timing-function: ease;
+}
+
+/* Reset transition for elements that animate transforms/opacity */
+.animate-scroll-line,
+.reveal-text span,
+[class*="motion"],
+[class*="transition-"] {
+    transition-property: none;
 }
