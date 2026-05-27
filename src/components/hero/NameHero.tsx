@@ -501,29 +501,23 @@ export default function NameHero() {
                                 <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
                                     <Skull size={20} className="text-accent" />
                                 </div>
-                                <h3 className="text-lg font-serif text-ink">You sure about this?</h3>
+                                <h3 className="text-lg font-serif text-ink">You said it wrong. Now you pay.</h3>
                             </div>
-                            <p className="text-mist text-sm leading-relaxed mb-2">
-                                You said it wrong. Now you get roasted. Pick your poison:
-                            </p>
-                            <p className="text-mist/60 text-xs leading-relaxed mb-1">
-                                <span className="text-accent font-medium">Hit me with it</span> — full gaaliyan, no mercy, not safe for your ego.
-                            </p>
-                            <p className="text-mist/60 text-xs leading-relaxed mb-6">
-                                <span className="text-accent font-medium">Go easy on me</span> — clean insults, still brutal, no swearing.
+                            <p className="text-mist text-sm leading-relaxed mb-4">
+                                Choose your fate. One has gaaliyan, one doesn't. Both will hurt your feelings.
                             </p>
                             <div className="flex gap-3">
                                 <button
                                     onClick={handleAcceptDisclaimer}
                                     className="flex-1 px-6 py-3 bg-accent text-sand rounded-xl text-sm font-medium hover:bg-accent-light transition-colors"
                                 >
-                                    Hit me with it
+                                    Hurt me. Full power.
                                 </button>
                                 <button
                                     onClick={handleDeclineDisclaimer}
                                     className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-xl text-sm"
                                 >
-                                    Go easy on me
+                                    I'll take the light version
                                 </button>
                             </div>
                         </motion.div>
