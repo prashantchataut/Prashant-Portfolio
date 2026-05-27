@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 
 const allSkills = [
     "TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Python",
-    "Tailwind CSS", "Framer Motion", "React Native", "Figma", "Git", "Docker"
+    "Tailwind CSS", "Framer Motion", "React Native", "Figma", "Git", "Docker",
+    "Claude", "Canva"
 ];
 
 export default function Skills() {
