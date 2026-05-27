@@ -55,6 +55,7 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
     const [isSupported, setIsSupported] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
+    const stoppedRef = useRef(false);
 
     useEffect(() => {
         setIsSupported(!!getSpeechRecognition());
@@ -71,6 +72,7 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
         setTranscript('');
         setConfidence(0);
         setAlternatives([]);
+        stoppedRef.current = false;
 
         const recognition = new SpeechRecognitionConstructor();
         recognition.continuous = false;
@@ -83,6 +85,8 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
         };
 
         recognition.onresult = (event: SpeechRecognitionEvent) => {
+            if (stoppedRef.current) return;
+
             const result = event.results[0];
             const mainTranscript = (result as unknown as { [key: number]: SpeechRecognitionResultItem })[0].transcript.toLowerCase().trim();
             const mainConfidence = (result as unknown as { [key: number]: SpeechRecognitionResultItem })[0].confidence;
@@ -106,6 +110,9 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
         };
 
         recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
+            if (stoppedRef.current) return;
+            if (event.error === 'aborted') return;
+
             if (event.error === 'not-allowed') {
                 setError('Microphone access denied. Please allow microphone access and try again.');
             } else if (event.error === 'no-speech') {
@@ -125,7 +132,11 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
     }, []);
 
     const stopListening = useCallback(() => {
-        recognitionRef.current?.stop();
+        stoppedRef.current = true;
+        if (recognitionRef.current) {
+            recognitionRef.current.abort();
+            recognitionRef.current = null;
+        }
         setIsListening(false);
     }, []);
 
