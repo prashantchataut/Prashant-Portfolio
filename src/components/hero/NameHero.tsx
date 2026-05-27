@@ -190,13 +190,22 @@ export default function NameHero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.6, delay: 0.45 }}
-                    className="text-mist text-lg sm:text-xl max-w-xl leading-relaxed mb-12"
+                    className="text-mist text-lg sm:text-xl max-w-xl leading-relaxed mb-6"
                 >
                     My biggest ick? People who{' '}
                     <span className="inline-block min-w-[140px]">
                         <FlickerWord words={pronunciation.flickerWords} />
                     </span>{' '}
                     my name. Don&apos;t be a shitbag like them.
+                </motion.p>
+
+                <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                    className="text-sm text-mist/50 font-sans mb-12"
+                >
+                    Yeah I use AI to code. You think I wrote this speech recognition logic myself?
                 </motion.p>
 
                 <AnimatePresence mode="wait">
