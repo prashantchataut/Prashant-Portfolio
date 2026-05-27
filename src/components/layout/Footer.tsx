@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { site } from '@/data/config';
+import SiteReview from './SiteReview';
 
 const socialLinks = [
     { name: 'GitHub', href: site.links.github },
@@ -64,6 +65,10 @@ export default function Footer() {
                             ))}
                         </div>
                     </div>
+                </div>
+
+                <div className="border-t border-border pt-12 mb-12">
+                    <SiteReview />
                 </div>
 
                 <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-mist/60">
