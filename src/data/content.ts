@@ -3,6 +3,7 @@ export const pronunciation = {
     devanagari: "प्रशान्त",
     phonetic: "/pruh-SHAANT/",
     phoneticFull: "/pruh-SHAANT chuh-TOUT/",
+    audioSrc: "/audio/prashant-pronunciation.wav",
     flickerWords: ["butcher", "mispronounce", "ruin", "destroy", "mangle", "murder", "wreck"],
     hint: "My biggest ick? People who {word} my name. Don't be a shitbag like them.",
     acceptableAttempts: [

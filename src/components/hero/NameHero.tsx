@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown } from 'lucide-react';
+import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown, Volume2 } from 'lucide-react';
 import { useSpeechRecognition } from '@/lib/speech/useSpeechRecognition';
 import { pronunciation, hero } from '@/data/content';
 
@@ -114,6 +114,11 @@ export default function NameHero() {
         }
     }, [state, isListening, startListening, stopListening, reset]);
 
+    const handlePlayAudio = useCallback(() => {
+        const audio = new Audio(pronunciation.audioSrc);
+        audio.play().catch(() => {});
+    }, []);
+
     const handleNameTap = useCallback(() => {
         setTapCount(prev => {
             const newCount = prev + 1;
@@ -162,7 +167,7 @@ export default function NameHero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
-                    className="flex items-baseline gap-4 mb-6"
+                    className="flex items-center gap-4 mb-6"
                 >
                     <span className="text-3xl sm:text-4xl text-accent font-devanagari tracking-tight">
                         {pronunciation.devanagari}
@@ -170,6 +175,13 @@ export default function NameHero() {
                     <span className="text-lg sm:text-xl text-mist font-serif tracking-tight">
                         {pronunciation.phonetic}
                     </span>
+                    <button
+                        onClick={handlePlayAudio}
+                        className="p-2 rounded-full border border-border hover:border-accent hover:text-accent text-mist transition-colors"
+                        aria-label="Hear pronunciation"
+                    >
+                        <Volume2 size={16} />
+                    </button>
                 </motion.div>
 
                 <motion.p
