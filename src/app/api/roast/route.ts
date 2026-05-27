@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const FALLBACK_ROASTS = [
-    "bhai ek naam hai do syllable ka aur tu fail ho gaya? shameless insaan",
-    "tere muh se nikla wo sound ko pronunciation nahi kehte, galti kehte hain",
     "you said that like you've never seen a vowel in your life chutiye",
-    "even autocorrect gave up on you bhosdike, prashant itna mushin hai kya",
-    "ek letter ka difference hai tere aur real pronunciation mein, aur wo letter hai tera self respect",
-    "tu naam bol raha hai ya kisi ko gaali de raha hai? because neither worked",
     "Dumbass bastard, your IP address is 192.168.1.1. I'm coming after you. raat bhar jaag ke practice kar phir aana",
-    "shaant means peaceful, tu bola toh peaceful kya chutiye ban raha hai sab",
+    "tu naam bol raha hai ya kisi ko gaali de raha hai? because neither worked",
+    "bro your tongue clearly doesn't work, turning a simple name into that disaster. go cry in the corner you useless bastard.",
+    "pure comedy how badly you raped my name into that, you fucking illiterate fuckwit.",
+    "what the actual fuck was that, you fucking dickhead?",
+    "genuinely embarrassing, saying it like that. go learn basic phonetics before opening your dumb mouth again, prick.",
+    "absolute waste of oxygen, that weak attempt? your parents must be so proud of their tongue-tied fuckwit son.",
+    "bruv you're genuinely retarded, butchering \"prashant\" into that garbage, your mouth needs fixing you useless prick",
 ];
 
 export async function POST(request: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ roast: fallback });
         }
 
-        const prompt = `Someone just tried to pronounce "Prashant Chataut" (/pruh-SHAANT chuh-TOUT/) and said "${attempt}". Roast the absolute shit out of them. Be raw, be personal, be mean. Talk like a real person who's genuinely pissed off — not a comedian, not a polite AI, not a standup routine. No setup-punchline format. Just straight disrespect. Make it sting. Mix Hindi naturally if you want (gaaliyan, maa-behen, chutiya, bhosdike — real Hindi cursing, not textbook). Keep it to 1-2 lines max. Make the roast specific to what they said wrong. Don't say "bevakoof" or use em dashes or do the polite roast thing. Just destroy them.`;
+        const prompt = `someone just tried to pronounce "prashant chataut" (/pruh-SHAANT chuh-TOUT/) and said "${attempt}". roast the absolute shit out of them. talk like a real angry person, not a comedian or polite AI. no em dashes, no setup-punchline, no "bevakoof" energy. just raw disrespect in lowercase. keep it to 1-2 lines max. make it specific to what they said wrong. examples of the energy: "bro your tongue clearly doesn't work, turning a simple name into that disaster. go cry in the corner you useless bastard." or "absolute waste of oxygen, that weak attempt? your parents must be so proud of their tongue-tied fuckwit son." if they said something explicit or associated the name with something nasty, go even harder: "what the actual fuck was that, you fucking dickhead?" mix in hindi gaaliyan naturally (chutiya, bhosdike, bhenchod, madarchod) but keep it real not textbook. everything lowercase. no em dashes ever.`;
 
         const response = await fetch(
             `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
