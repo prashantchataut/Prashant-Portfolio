@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Sora, Libre_Baskerville } from 'next/font/google';
+import { Sora, Libre_Baskerville, Noto_Sans_Devanagari } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -15,6 +15,13 @@ const libreBaskerville = Libre_Baskerville({
     weight: ['400', '700'],
     subsets: ['latin'],
     variable: '--font-serif',
+    display: 'swap',
+});
+
+const notoDevanagari = Noto_Sans_Devanagari({
+    weight: ['400', '700'],
+    subsets: ['devanagari'],
+    variable: '--font-devanagari',
     display: 'swap',
 });
 
@@ -90,7 +97,7 @@ export default function RootLayout({
     };
 
     return (
-        <html lang="en" className={`${sora.variable} ${libreBaskerville.variable}`}>
+        <html lang="en" className={`${sora.variable} ${libreBaskerville.variable} ${notoDevanagari.variable}`}>
             <head>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             </head>

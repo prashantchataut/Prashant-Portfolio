@@ -30,14 +30,7 @@ export const birthday = {
     name: "Prashant",
     whatsappNumber: "9779761488159",
     instagramLink: "https://instagram.com/prashantchataut_",
-    message: "HEY IT'S MY BIRTHDAY TODAY! Wish me asapppppp! Don't even think about scrolling past this. I'm watching. 👀",
-    preMessages: [
-        "Happy birthday Prashant! You're literally 17 and building cooler stuff than most adults. Insane.",
-        "HBD you absolute legend. 17 years of chaos and it's only going up from here 🔥",
-        "Happy birthday! Now stop coding for 5 minutes and eat cake. You've earned it.",
-        "17 and already shipping real products? Bro what am I doing with my life. Happy birthday!",
-        "Birthday boy! May your code compile on the first try today (we both know it won't but still) 🎂",
-    ],
+    message: "HEY IT'S MY BIRTHDAY TODAY! Wish me asapppppp! Don't even think about scrolling past this.",
     celebrationDurationDays: 7,
 };
 

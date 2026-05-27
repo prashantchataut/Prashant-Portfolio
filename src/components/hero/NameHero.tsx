@@ -178,7 +178,7 @@ export default function NameHero() {
                     transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
                     className="flex items-baseline gap-4 mb-6"
                 >
-                    <span className="text-3xl sm:text-4xl text-accent font-serif tracking-tight">
+                    <span className="text-3xl sm:text-4xl text-accent font-devanagari tracking-tight">
                         {pronunciation.devanagari}
                     </span>
                     <span className="text-lg sm:text-xl text-mist font-serif tracking-tight">
