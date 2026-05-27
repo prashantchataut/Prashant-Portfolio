@@ -1,8 +1,10 @@
 export const pronunciation = {
     name: "Prashant Chataut",
-    phonetic: "प्रशान्त",
+    devanagari: "प्रशान्त",
+    phonetic: "/pruh-SHAANT/",
     phoneticFull: "/pruh-SHAANT chuh-TOUT/",
-    hint: "My biggest ick? People who butcher my name. Don't be a shitbag like them. It's Shaant — like peaceful in Hindi. Not shunth. Not shont. SHAANT.",
+    flickerWords: ["butcher", "mispronounce", "ruin", "destroy", "mangle", "murder", "wreck"],
+    hint: "My biggest ick? People who {word} my name. Don't be a shitbag like them.",
     acceptableAttempts: [
         "prashant",
         "prashant chataut",

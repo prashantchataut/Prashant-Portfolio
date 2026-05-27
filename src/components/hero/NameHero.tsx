@@ -41,6 +41,32 @@ function levenshtein(a: string, b: string): number {
 
 type PronunciationState = 'idle' | 'listening' | 'success' | 'roast';
 
+function FlickerWord({ words }: { words: string[] }) {
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex(prev => (prev + 1) % words.length);
+        }, 2000);
+        return () => clearInterval(interval);
+    }, [words.length]);
+
+    return (
+        <AnimatePresence mode="wait">
+            <motion.span
+                key={words[index]}
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3 }}
+                className="inline-block text-accent"
+            >
+                {words[index]}
+            </motion.span>
+        </AnimatePresence>
+    );
+}
+
 export default function NameHero() {
     const { transcript, isListening, isSupported, startListening, stopListening, error, reset } = useSpeechRecognition();
     const [state, setState] = useState<PronunciationState>('idle');
@@ -150,9 +176,12 @@ export default function NameHero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
-                    className="mb-6"
+                    className="flex items-baseline gap-4 mb-6"
                 >
                     <span className="text-3xl sm:text-4xl text-accent font-serif tracking-tight">
+                        {pronunciation.devanagari}
+                    </span>
+                    <span className="text-lg sm:text-xl text-mist font-serif tracking-tight">
                         {pronunciation.phonetic}
                     </span>
                 </motion.div>
@@ -163,7 +192,11 @@ export default function NameHero() {
                     transition={{ duration: 0.6, delay: 0.45 }}
                     className="text-mist text-lg sm:text-xl max-w-xl leading-relaxed mb-12"
                 >
-                    {pronunciation.hint}
+                    My biggest ick? People who{' '}
+                    <span className="inline-block min-w-[140px]">
+                        <FlickerWord words={pronunciation.flickerWords} />
+                    </span>{' '}
+                    my name. Don&apos;t be a shitbag like them.
                 </motion.p>
 
                 <AnimatePresence mode="wait">
