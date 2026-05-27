@@ -160,7 +160,7 @@ export default function NameHero() {
         fetch('/api/roast', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ attempt }),
+            body: JSON.stringify({ attempt, spicy: true }),
         })
             .then(res => res.json())
             .then(data => {
@@ -176,10 +176,25 @@ export default function NameHero() {
 
     const handleDeclineDisclaimer = useCallback(() => {
         setShowDisclaimer(false);
-        setState('idle');
-        setHeardText('');
-        setPendingRoast(null);
-    }, []);
+        setState('roast');
+        setRoastLoading(true);
+        const attempt = pendingRoast?.transcript || heardText;
+        fetch('/api/roast', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ attempt, spicy: false }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setRoast(data.roast);
+                setRoastLoading(false);
+            })
+            .catch(() => {
+                setRoast("that wasn't even close, you sad, unrefined nobody. keep struggling with basic human skills.");
+                setRoastLoading(false);
+            });
+        setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+    }, [pendingRoast, heardText]);
 
     const handleNameTap = useCallback(() => {
         setTapCount(prev => {
@@ -489,10 +504,13 @@ export default function NameHero() {
                                 <h3 className="text-lg font-serif text-ink">You sure about this?</h3>
                             </div>
                             <p className="text-mist text-sm leading-relaxed mb-2">
-                                You&apos;re about to get roasted. Like, actually roasted. Not the polite AI kind — the real kind. With gaaliyan.
+                                You said it wrong. Now you get roasted. Pick your poison:
+                            </p>
+                            <p className="text-mist/60 text-xs leading-relaxed mb-1">
+                                <span className="text-accent font-medium">Hit me with it</span> — full gaaliyan, no mercy, not safe for your ego.
                             </p>
                             <p className="text-mist/60 text-xs leading-relaxed mb-6">
-                                Content includes colorful Hindi-English insults. If you can&apos;t handle it, no shame in walking away. But if you can...
+                                <span className="text-accent font-medium">Go easy on me</span> — clean insults, still brutal, no swearing.
                             </p>
                             <div className="flex gap-3">
                                 <button
@@ -505,7 +523,7 @@ export default function NameHero() {
                                     onClick={handleDeclineDisclaimer}
                                     className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-xl text-sm"
                                 >
-                                    I&apos;m good
+                                    Go easy on me
                                 </button>
                             </div>
                         </motion.div>
