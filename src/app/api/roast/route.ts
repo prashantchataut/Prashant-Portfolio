@@ -7,7 +7,7 @@ const FALLBACK_ROASTS = [
     "even autocorrect gave up on you bhosdike, prashant itna mushin hai kya",
     "ek letter ka difference hai tere aur real pronunciation mein, aur wo letter hai tera self respect",
     "tu naam bol raha hai ya kisi ko gaali de raha hai? because neither worked",
-    "your vocal cords and my name are not in the same zip code bhai",
+    "Dumbass bastard, your IP address is 192.168.1.1. I'm coming after you. raat bhar jaag ke practice kar phir aana",
     "shaant means peaceful, tu bola toh peaceful kya chutiye ban raha hai sab",
 ];
 

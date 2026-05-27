@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown, Volume2, Keyboard } from 'lucide-react';
+import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown, Volume2, Keyboard, ShieldAlert, Skull } from 'lucide-react';
 import { useSpeechRecognition } from '@/lib/speech/useSpeechRecognition';
 import { pronunciation, hero } from '@/data/content';
 
@@ -68,6 +68,8 @@ export default function NameHero() {
     const [showKeyboard, setShowKeyboard] = useState(false);
     const [typedAttempt, setTypedAttempt] = useState('');
     const [heardText, setHeardText] = useState('');
+    const [showDisclaimer, setShowDisclaimer] = useState(false);
+    const [pendingRoast, setPendingRoast] = useState<{ transcript: string; confidence: number; alternatives: Array<{ transcript: string; confidence: number }> } | null>(null);
     const nameRef = useRef<HTMLHeadingElement>(null);
     const tapTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -88,23 +90,9 @@ export default function NameHero() {
             setStats(prev => ({ total: prev.total + 1, correct: prev.correct + 1 }));
             fetch('/api/stats', { method: 'POST' }).catch(() => {});
         } else {
-            setState('roast');
-            setRoastLoading(true);
-            fetch('/api/roast', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ attempt: transcript }),
-            })
-                .then(res => res.json())
-                .then(data => {
-                    setRoast(data.roast);
-                    setRoastLoading(false);
-                })
-                .catch(() => {
-                    setRoast("Even the roast generator is speechless at how badly you mangled that. Try again.");
-                    setRoastLoading(false);
-                });
-            setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+            setHeardText(transcript);
+            setPendingRoast({ transcript, confidence, alternatives });
+            setShowDisclaimer(true);
         }
     }, [transcript]);
 
@@ -135,17 +123,9 @@ export default function NameHero() {
             setStats(prev => ({ total: prev.total + 1, correct: prev.correct + 1 }));
             fetch('/api/stats', { method: 'POST' }).catch(() => {});
         } else {
-            setState('roast');
-            setRoastLoading(true);
-            fetch('/api/roast', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ attempt: typedAttempt.trim() }),
-            })
-                .then(res => res.json())
-                .then(data => { setRoast(data.roast); setRoastLoading(false); })
-                .catch(() => { setRoast("Even the roast generator is speechless at how badly you mangled that. Try again."); setRoastLoading(false); });
-            setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+            setHeardText(typedAttempt.trim());
+            setPendingRoast({ transcript: typedAttempt.trim(), confidence: 1, alternatives: [] });
+            setShowDisclaimer(true);
         }
     }, [typedAttempt]);
 
@@ -155,6 +135,8 @@ export default function NameHero() {
             setState('idle');
             setRoast('');
             setHeardText('');
+            setPendingRoast(null);
+            setShowDisclaimer(false);
             return;
         }
         if (isListening) {
@@ -168,6 +150,35 @@ export default function NameHero() {
     const handlePlayAudio = useCallback(() => {
         const audio = new Audio(pronunciation.audioSrc);
         audio.play().catch(() => {});
+    }, []);
+
+    const handleAcceptDisclaimer = useCallback(() => {
+        setShowDisclaimer(false);
+        setState('roast');
+        setRoastLoading(true);
+        const attempt = pendingRoast?.transcript || heardText;
+        fetch('/api/roast', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ attempt }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                setRoast(data.roast);
+                setRoastLoading(false);
+            })
+            .catch(() => {
+                setRoast("Even the roast generator is speechless at how badly you mangled that. Try again.");
+                setRoastLoading(false);
+            });
+        setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+    }, [pendingRoast, heardText]);
+
+    const handleDeclineDisclaimer = useCallback(() => {
+        setShowDisclaimer(false);
+        setState('idle');
+        setHeardText('');
+        setPendingRoast(null);
     }, []);
 
     const handleNameTap = useCallback(() => {
@@ -190,6 +201,8 @@ export default function NameHero() {
         setRoast('');
         setHeardText('');
         setTypedAttempt('');
+        setPendingRoast(null);
+        setShowDisclaimer(false);
     }, [reset]);
 
     return (
@@ -451,6 +464,54 @@ export default function NameHero() {
                     </motion.p>
                 )}
             </div>
+
+            <AnimatePresence>
+                {showDisclaimer && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4"
+                        onClick={handleDeclineDisclaimer}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                            className="bg-surface border-2 border-accent/30 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                                    <Skull size={20} className="text-accent" />
+                                </div>
+                                <h3 className="text-lg font-serif text-ink">You sure about this?</h3>
+                            </div>
+                            <p className="text-mist text-sm leading-relaxed mb-2">
+                                You&apos;re about to get roasted. Like, actually roasted. Not the polite AI kind — the real kind. With gaaliyan.
+                            </p>
+                            <p className="text-mist/60 text-xs leading-relaxed mb-6">
+                                Content includes colorful Hindi-English insults. If you can&apos;t handle it, no shame in walking away. But if you can...
+                            </p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={handleAcceptDisclaimer}
+                                    className="flex-1 px-6 py-3 bg-accent text-sand rounded-xl text-sm font-medium hover:bg-accent-light transition-colors"
+                                >
+                                    Hit me with it
+                                </button>
+                                <button
+                                    onClick={handleDeclineDisclaimer}
+                                    className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-xl text-sm"
+                                >
+                                    I&apos;m good
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <AnimatePresence>
                 {showEasterEgg && (
