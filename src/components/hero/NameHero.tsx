@@ -14,7 +14,7 @@ function checkPronunciation(transcript: string): boolean {
             return normalized === normalizedAttempt
                 || normalized.includes(normalizedAttempt)
                 || normalizedAttempt.includes(normalized)
-                || levenshtein(normalized, normalizedAttempt) <= 3;
+                || levenshtein(normalized, normalizedAttempt) <= 1;
         }
     );
 }
