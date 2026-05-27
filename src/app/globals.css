@@ -2,102 +2,109 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Dark Mode (Default) ─── */
 :root {
-    --sand: #0a0a0a;
-    --ink: #f0f0f0;
-    --mist: #8a8a8a;
-    --accent: #3B82F6;
-    --slate: #141414;
-    --ash: #1a1a1a;
-    --surface: #111111;
-    --border: rgba(255, 255, 255, 0.08);
+    --sand: #FAF7F2;
+    --ink: #1A1612;
+    --mist: #8A8078;
+    --accent: #D97706;
+    --accent-light: #F59E0B;
+    --accent-glow: rgba(217, 119, 6, 0.15);
+    --slate: #E8E2DA;
+    --ash: #F0EBE3;
+    --surface: #FFFFFF;
+    --surface-elevated: #F5F0E8;
+    --border: rgba(26, 22, 18, 0.08);
+    --gradient-start: #D97706;
+    --gradient-mid: #F59E0B;
+    --gradient-end: #D97706;
 }
 
-/* ─── Light Mode ─── */
-[data-theme="light"] {
-    --sand: #FAFAF8;
-    --ink: #111111;
-    --mist: #666666;
-    --accent: #2563EB;
-    --slate: #E8E8E4;
-    --ash: #F0F0EC;
-    --surface: #FFFFFF;
-    --border: rgba(0, 0, 0, 0.08);
+[data-theme="dark"] {
+    --sand: #0C0A09;
+    --ink: #F5F0EB;
+    --mist: #9C9488;
+    --accent: #F59E0B;
+    --accent-light: #FBBF24;
+    --accent-glow: rgba(245, 158, 11, 0.12);
+    --slate: #1C1917;
+    --ash: #141210;
+    --surface: #0C0A09;
+    --surface-elevated: #1C1917;
+    --border: rgba(245, 240, 235, 0.06);
+    --gradient-start: #F59E0B;
+    --gradient-mid: #D97706;
+    --gradient-end: #F59E0B;
 }
 
 body {
     color: var(--ink);
     background-color: var(--sand);
     overflow-x: hidden;
-    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* Desktop-only custom cursor */
-@media (pointer: fine) {
-    body {
-        cursor: none;
-    }
+h1, h2, h3, h4, h5, h6, .font-serif {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
+    letter-spacing: -0.02em;
 }
 
-/* Reveal Animation */
-@keyframes reveal-up {
-    0% {
-        transform: translateY(100%);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-}
-
-.reveal-text {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-.reveal-text span {
-    display: inline-block;
-    animation: reveal-up 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    transform: translateY(100%);
-}
-
-/* Custom Selection */
 ::selection {
     background-color: var(--accent);
     color: var(--sand);
 }
 
-/* Scroll Line Animation */
-@keyframes scroll-line {
-    0% {
-        transform: translateY(-100%);
+.gradient-text {
+    color: var(--accent);
+}
+
+.section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, var(--gradient-start), var(--gradient-mid), var(--gradient-end), transparent 95%);
+    opacity: 0.25;
+}
+
+.glow-accent {
+    box-shadow: 0 0 40px var(--accent-glow), 0 0 80px var(--accent-glow);
+}
+
+.glow-sm {
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* Skip to content */
+.skip-to-content {
+    position: absolute;
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 0.75rem 1.5rem;
+    background: var(--accent);
+    color: var(--sand);
+    font-weight: 600;
+    border-radius: 0 0 0.5rem 0.5rem;
+    transition: top 0.2s;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* Focus styles */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
     }
-
-    100% {
-        transform: translateY(100%);
-    }
-}
-
-.animate-scroll-line {
-    animation: scroll-line 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
-}
-
-/* Smooth theme transitions for all themed elements */
-*,
-*::before,
-*::after {
-    transition-property: background-color, border-color;
-    transition-duration: 0.3s;
-    transition-timing-function: ease;
-}
-
-/* Reset transition for elements that animate transforms/opacity */
-.animate-scroll-line,
-.reveal-text span,
-[class*="motion"],
-[class*="transition-"] {
-    transition-property: none;
 }

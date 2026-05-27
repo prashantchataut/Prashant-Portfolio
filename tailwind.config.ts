@@ -9,8 +9,8 @@ const config: Config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui'],
-                mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+                sans: ['var(--font-sans)', 'ui-sans-serif', 'system-ui'],
+                serif: ['var(--font-serif)', 'ui-serif', 'Georgia', 'serif'],
             },
             colors: {
                 sand: 'var(--sand)',
@@ -18,19 +18,25 @@ const config: Config = {
                 ink: 'var(--ink)',
                 slate: 'var(--slate)',
                 mist: 'var(--mist)',
-                accent: 'var(--accent)',
-                surface: 'var(--surface)',
+                accent: {
+                    DEFAULT: 'var(--accent)',
+                    light: 'var(--accent-light)',
+                    glow: 'var(--accent-glow)',
+                },
+                surface: {
+                    DEFAULT: 'var(--surface)',
+                    elevated: 'var(--surface-elevated)',
+                },
                 border: 'var(--border)',
             },
             backgroundImage: {
-                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                'gradient-conic':
-                    'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+                'gradient-accent': 'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))',
             },
             animation: {
-                'fade-up': 'fadeUp 0.8s ease-out forwards',
-                'fade-in': 'fadeIn 0.8s ease-out forwards',
-                'scale-up': 'scaleUp 0.5s ease-out forwards',
+                'fade-up': 'fadeUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                'fade-in': 'fadeIn 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards',
+                'pulse-dot': 'pulseDot 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'confetti': 'confetti 1s cubic-bezier(0.25, 1, 0.5, 1) forwards',
             },
             keyframes: {
                 fadeUp: {
@@ -41,9 +47,13 @@ const config: Config = {
                     '0%': { opacity: '0' },
                     '100%': { opacity: '1' },
                 },
-                scaleUp: {
-                    '0%': { transform: 'scale(0.95)', opacity: '0' },
-                    '100%': { transform: 'scale(1)', opacity: '1' },
+                pulseDot: {
+                    '0%, 100%': { opacity: '1' },
+                    '50%': { opacity: '0.5' },
+                },
+                confetti: {
+                    '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
+                    '100%': { transform: 'translateY(-100px) rotate(720deg)', opacity: '0' },
                 },
             },
         },

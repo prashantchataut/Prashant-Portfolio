@@ -1,80 +1,48 @@
-"use client";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useState } from "react";
+'use client';
 
-const Philosophy = () => {
-    const targetRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-        offset: ["start end", "end start"],
-    });
+import { motion } from 'framer-motion';
+import { philosophy } from '@/data/content';
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-45%"]);
-    const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-
-    const cards = [
-        {
-            id: 1,
-            title: "Kinetic Motion",
-            desc: "Movement should be purposeful. Every interaction has weight and physical presence.",
-            num: "01"
-        },
-        {
-            id: 2,
-            title: "System Precision",
-            desc: "Clean code equals clean experiences. Architecture is the hidden design.",
-            num: "02"
-        },
-        {
-            id: 3,
-            title: "Human Impact",
-            desc: "Technology serves humanity. We build to empower, not just to compute.",
-            num: "03"
-        }
-    ];
-
+export default function Philosophy() {
     return (
-        <section ref={targetRef} className="relative h-[200vh] bg-sand">
-            <div className="sticky top-0 flex h-screen items-center overflow-hidden border-t border-border">
-                <motion.div style={{ x }} className="flex gap-16 px-16 items-center">
+        <section id="philosophy" className="py-24 sm:py-32 relative">
+            <div className="section-divider" />
 
-                    {/* Title Card */}
-                    <div className="h-[60vh] w-[80vw] md:w-[40vw] shrink-0 flex flex-col justify-center pr-16 z-10">
-                        <h2 className="text-[6vw] font-bold leading-none text-ink">
-                            Core<br />
-                            <span className="text-accent">Philosophy</span>
-                        </h2>
-                        <p className="mt-8 text-lg text-mist max-w-xl leading-relaxed">
-                            I believe in systems that are as beautiful as they are functional. Code is not just logic; it's structure, rhythm, and motion.
-                        </p>
-                    </div>
+            <div className="max-w-5xl mx-auto px-6 lg:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-16"
+                >
+                    <p className="text-xs font-bold tracking-[0.3em] uppercase text-accent font-sans mb-4">
+                        Philosophy
+                    </p>
+                    <h2 className="text-4xl sm:text-6xl font-serif text-ink tracking-tight">
+                        {philosophy.sectionTitle}
+                    </h2>
+                </motion.div>
 
-                    {/* Cards */}
-                    {cards.map((card) => (
+                <div className="space-y-16 sm:space-y-24">
+                    {philosophy.items.map((item, i) => (
                         <motion.div
-                            key={card.id}
-                            onHoverStart={() => setHoveredCard(card.id)}
-                            onHoverEnd={() => setHoveredCard(null)}
-                            className={`h-[60vh] w-[400px] shrink-0 border border-border bg-surface p-8 flex flex-col justify-between transition-all duration-500 cursor-pointer group relative overflow-hidden rounded-2xl ${hoveredCard && hoveredCard !== card.id ? 'opacity-30 blur-sm scale-95' : 'opacity-100 scale-100 hover:border-accent/40 hover:shadow-2xl hover:shadow-accent/5'
-                                }`}
+                            key={i}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: '-100px' }}
+                            transition={{ duration: 0.6, delay: i * 0.1 }}
+                            className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-8"
                         >
-                            <div className="absolute inset-0 bg-accent/5 translate-y-full group-hover:translate-y-0 transition-transform duration-500 rounded-2xl" />
-
-                            <div className="relative z-10 flex justify-between items-start">
-                                <span className="text-4xl font-bold text-accent/30 group-hover:text-accent transition-colors font-mono">{card.num}</span>
-                            </div>
-
-                            <div className="relative z-10">
-                                <h3 className="text-2xl font-bold text-ink mb-4 tracking-tight group-hover:translate-x-2 transition-transform duration-300">{card.title}</h3>
-                                <p className="text-mist group-hover:text-ink transition-colors">{card.desc}</p>
-                            </div>
+                            <h3 className="sm:col-span-5 text-2xl sm:text-3xl font-serif text-ink tracking-tight leading-tight">
+                                {item.title}
+                            </h3>
+                            <p className="sm:col-span-7 text-mist text-lg leading-relaxed">
+                                {item.body}
+                            </p>
                         </motion.div>
                     ))}
-
-                </motion.div>
+                </div>
             </div>
         </section>
     );
-};
-
-export default Philosophy;
+}

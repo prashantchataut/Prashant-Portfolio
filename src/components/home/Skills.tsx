@@ -1,64 +1,43 @@
-"use client";
+'use client';
+
 import { motion } from 'framer-motion';
 
-const skillGroups = [
-    {
-        title: "Foundation",
-        description: "The core technologies that power my engineering.",
-        skills: ["React 18", "Next.js 14", "TypeScript", "Node.js", "PostgreSQL"]
-    },
-    {
-        title: "Expression",
-        description: "Tools for visual storytelling and interaction.",
-        skills: ["Tailwind CSS", "Framer Motion", "GSAP", "Three.js (R3F)", "Figma"]
-    },
-    {
-        title: "Arsenal",
-        description: "DevOps and productivity workflow.",
-        skills: ["Git/GitHub", "Vercel", "Docker", "VS Code", "Linear"]
-    }
+const allSkills = [
+    "TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Python",
+    "Tailwind CSS", "Framer Motion", "React Native", "Figma", "Git", "Docker"
 ];
 
 export default function Skills() {
     return (
-        <section id="skills" className="py-32 bg-ash border-t border-border relative overflow-hidden">
-            {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-b from-accent/5 to-transparent rounded-full blur-3xl opacity-50 pointer-events-none" />
-
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
-                <div className="mb-20 md:flex md:justify-between md:items-end">
-                    <div className="max-w-xl">
-                        <p className="text-xs font-bold uppercase tracking-[0.3em] text-accent mb-4 font-mono">My Toolkit</p>
-                        <h2 className="text-4xl sm:text-6xl font-bold tracking-tighter text-ink">
-                            Engineered for <br />Performance.
+        <section id="skills" className="py-24 sm:py-32 relative overflow-hidden">
+            <div className="mx-auto max-w-5xl px-6 lg:px-8 relative z-10 flex flex-col md:flex-row gap-12 md:gap-20 items-start">
+                <div className="shrink-0 md:w-1/3">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <h2 className="text-3xl sm:text-5xl font-serif text-ink tracking-tight mb-6">
+                            What I work with.
                         </h2>
-                    </div>
+                        <p className="text-mist text-base leading-relaxed">
+                            Tools for building with performance, aesthetics, and scale in mind.
+                        </p>
+                    </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {skillGroups.map((group, i) => (
-                        <motion.div
-                            key={group.title}
-                            initial={{ opacity: 0, y: 20 }}
+                <div className="w-full flex-grow flex flex-wrap gap-3 pt-2">
+                    {allSkills.map((skill, i) => (
+                        <motion.span
+                            key={skill}
+                            initial={{ opacity: 0, y: 15 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: i * 0.1, duration: 0.5 }}
-                            className="bg-surface p-10 rounded-2xl border border-border hover:border-accent/30 hover:shadow-xl hover:shadow-accent/5 transition-all duration-500 group"
+                            viewport={{ once: true, margin: '-50px' }}
+                            transition={{ delay: i * 0.03, duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+                            className="px-5 py-2.5 border border-border text-mist text-sm font-medium rounded-full transition-all duration-300 hover:border-accent/40 hover:text-ink hover:bg-surface-elevated"
                         >
-                            <h3 className="text-2xl font-bold text-ink mb-2 group-hover:text-accent transition-colors">{group.title}</h3>
-                            <p className="text-mist text-sm mb-8">{group.description}</p>
-
-                            <div className="flex flex-wrap gap-2">
-                                {group.skills.map((skill) => (
-                                    <span
-                                        key={skill}
-                                        className="px-3 py-1.5 bg-ash text-ink text-xs font-medium rounded-full border border-border group-hover:border-accent/20 group-hover:bg-accent/5 transition-colors"
-                                    >
-                                        {skill}
-                                    </span>
-                                ))}
-                            </div>
-                        </motion.div>
+                            {skill}
+                        </motion.span>
                     ))}
                 </div>
             </div>

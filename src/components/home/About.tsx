@@ -1,64 +1,86 @@
-"use client";
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import ParallaxImage from '../ui/ParallaxImage';
+'use client';
+
+import { motion } from 'framer-motion';
+import Image from 'next/image';
+import { about } from '@/data/content';
 
 export default function About() {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"]
-    });
-
-    const textY = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
-    const opacity = useTransform(scrollYProgress, [0, 0.3], [0, 1]);
-
     return (
-        <section ref={containerRef} id="about" className="py-24 sm:py-32 bg-sand relative overflow-hidden">
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <section id="about" className="py-24 sm:py-32 relative">
+            <div className="section-divider" />
 
-                {/* Left: Text Content */}
-                <motion.div style={{ y: textY, opacity }} className="relative z-10 order-2 lg:order-1">
-                    <p className="text-sm uppercase tracking-[0.3em] text-accent mb-6 font-mono">System.Identity</p>
-                    <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-ink mb-8 leading-tight">
-                        Analytical thinking. <br /><span className="text-mist">Generative workflows.</span>
+            <div className="max-w-5xl mx-auto px-6 lg:px-8">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mb-12"
+                >
+                    <p className="text-xs font-bold tracking-[0.3em] uppercase text-accent font-sans mb-4">
+                        About
+                    </p>
+                    <h2 className="text-4xl sm:text-6xl font-serif text-ink tracking-tight">
+                        {about.sectionTitle}
                     </h2>
-
-                    <div className="space-y-6 text-lg leading-relaxed text-mist">
-                        <p>
-                            I build systems that bridge the gap between human intent and machine logic. My approach blends <strong className="text-ink">rigorous engineering</strong> with a deep understanding of user interaction to create tools that feel seamless.
-                        </p>
-                        <p>
-                            With a background in analytical thinking, I am obsessed with precision. I don't just ship code; I design resilient, scalable, and intuitive interfaces that stand the test of time.
-                        </p>
-                    </div>
-
-                    <div className="mt-12 flex gap-12 border-t border-border pt-8">
-                        <div>
-                            <p className="text-4xl font-bold text-ink">3+</p>
-                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Years Tech</p>
-                        </div>
-                        <div>
-                            <p className="text-4xl font-bold text-ink">Prody</p>
-                            <p className="text-sm text-mist mt-1 uppercase tracking-wider">Latest Build</p>
-                        </div>
-                    </div>
                 </motion.div>
 
-                {/* Right: Creative Image Reveal */}
-                <div className="relative h-[500px] w-full order-1 lg:order-2">
-                    <ParallaxImage
-                        src="/images/about-abstract.png"
-                        alt="Abstract AI Mind"
-                        className="grayscale hover:grayscale-0 transition-all duration-700 ease-in-out"
-                        containerClassName="rounded-2xl h-full w-full overflow-hidden"
-                    />
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-start">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-2"
+                    >
+                        <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-surface-elevated">
+                            <Image
+                                src={about.photoSrc}
+                                alt={about.photoAlt}
+                                fill
+                                className="object-cover"
+                                priority
+                                sizes="(max-width: 1024px) 100vw, 40vw"
+                            />
+                        </div>
+                    </motion.div>
 
-                    {/* Decorative accent circle */}
-                    <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-accent/10 blur-2xl pointer-events-none" />
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-3 space-y-6"
+                    >
+                        {about.body.map((paragraph, i) => (
+                            <p key={i} className="text-lg text-mist leading-relaxed">
+                                {paragraph}
+                            </p>
+                        ))}
+
+                        <div className="pt-8 flex flex-wrap gap-4">
+                            <a
+                                href={about.links.github}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-full text-sm font-medium"
+                            >
+                                GitHub
+                            </a>
+                            <a
+                                href={about.links.instagram}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-full text-sm font-medium"
+                            >
+                                Instagram
+                            </a>
+                            <a
+                                href={about.links.email}
+                                className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-full text-sm font-medium"
+                            >
+                                Email
+                            </a>
+                        </div>
+                    </motion.div>
                 </div>
-
             </div>
         </section>
     );

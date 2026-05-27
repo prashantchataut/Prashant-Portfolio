@@ -1,7 +1,8 @@
-"use client";
-import { createContext, useContext, useEffect, useState } from "react";
+'use client';
 
-type Theme = "dark" | "light";
+import { createContext, useContext, useEffect, useState } from 'react';
+
+type Theme = 'dark' | 'light';
 
 interface ThemeContextType {
     theme: Theme;
@@ -9,8 +10,12 @@ interface ThemeContextType {
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-    theme: "dark",
-    toggleTheme: () => { },
+    theme: 'dark',
+    toggleTheme: () => {
+        if (typeof process !== 'undefined' && process.env.NODE_ENV === 'development') {
+            console.warn('ThemeProvider: toggleTheme called outside of ThemeProvider. Wrap your app with <ThemeProvider>.');
+        }
+    },
 });
 
 export function useTheme() {
@@ -18,26 +23,25 @@ export function useTheme() {
 }
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>("dark");
+    const [theme, setTheme] = useState<Theme>('dark');
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        const saved = localStorage.getItem("theme") as Theme | null;
-        if (saved === "light" || saved === "dark") {
+        const saved = localStorage.getItem('theme') as Theme | null;
+        if (saved === 'light' || saved === 'dark') {
             setTheme(saved);
-            document.documentElement.setAttribute("data-theme", saved);
+            document.documentElement.setAttribute('data-theme', saved);
         }
         setMounted(true);
     }, []);
 
     const toggleTheme = () => {
-        const next = theme === "dark" ? "light" : "dark";
+        const next = theme === 'dark' ? 'light' : 'dark';
         setTheme(next);
-        localStorage.setItem("theme", next);
-        document.documentElement.setAttribute("data-theme", next);
+        localStorage.setItem('theme', next);
+        document.documentElement.setAttribute('data-theme', next);
     };
 
-    // Prevent flash of wrong theme
     if (!mounted) {
         return <>{children}</>;
     }
