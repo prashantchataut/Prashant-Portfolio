@@ -2,27 +2,31 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown, Volume2 } from 'lucide-react';
+import { Mic, MicOff, RotateCcw, Download, Award, ChevronDown, Volume2, Keyboard } from 'lucide-react';
 import { useSpeechRecognition } from '@/lib/speech/useSpeechRecognition';
 import { pronunciation, hero } from '@/data/content';
 
-function checkPronunciation(transcript: string, confidence: number): boolean {
-    const normalized = transcript.toLowerCase().trim();
+function checkPronunciation(transcript: string, confidence: number, alternatives: Array<{ transcript: string; confidence: number }>): boolean {
+    const allAttempts = [
+        { transcript: transcript.toLowerCase().trim(), confidence },
+        ...alternatives.map(a => ({ transcript: a.transcript.toLowerCase().trim(), confidence: a.confidence })),
+    ];
 
-    if (pronunciation.wrongAttempts.some(w => normalized.includes(w) || w.includes(normalized))) {
-        return false;
-    }
-
-    if (confidence < 0.85) {
-        return false;
-    }
-
-    return pronunciation.acceptableAttempts.some(
-        (attempt) => {
-            const normalizedAttempt = attempt.toLowerCase().trim();
-            return normalized === normalizedAttempt;
+    for (const attempt of allAttempts) {
+        if (pronunciation.wrongAttempts.some(w => attempt.transcript.includes(w) || w.includes(attempt.transcript))) {
+            continue;
         }
-    );
+
+        if (attempt.confidence < 0.85) {
+            continue;
+        }
+
+        if (pronunciation.acceptableAttempts.some(acceptable => attempt.transcript === acceptable.toLowerCase().trim())) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 type PronunciationState = 'idle' | 'listening' | 'success' | 'roast';
@@ -54,13 +58,16 @@ function FlickerWord({ words }: { words: string[] }) {
 }
 
 export default function NameHero() {
-    const { transcript, confidence, isListening, isSupported, startListening, stopListening, error, reset } = useSpeechRecognition();
+    const { transcript, confidence, alternatives, isListening, isSupported, startListening, stopListening, error, reset } = useSpeechRecognition();
     const [state, setState] = useState<PronunciationState>('idle');
     const [roast, setRoast] = useState('');
     const [roastLoading, setRoastLoading] = useState(false);
     const [tapCount, setTapCount] = useState(0);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
     const [stats, setStats] = useState({ total: 847, correct: 312 });
+    const [showKeyboard, setShowKeyboard] = useState(false);
+    const [typedAttempt, setTypedAttempt] = useState('');
+    const [heardText, setHeardText] = useState('');
     const nameRef = useRef<HTMLHeadingElement>(null);
     const tapTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -74,7 +81,9 @@ export default function NameHero() {
     useEffect(() => {
         if (!transcript) return;
 
-        if (checkPronunciation(transcript, confidence)) {
+        setHeardText(transcript);
+
+        if (checkPronunciation(transcript, confidence, alternatives)) {
             setState('success');
             setStats(prev => ({ total: prev.total + 1, correct: prev.correct + 1 }));
             fetch('/api/stats', { method: 'POST' }).catch(() => {});
@@ -99,11 +108,53 @@ export default function NameHero() {
         }
     }, [transcript]);
 
+    const handleTypedSubmit = useCallback(() => {
+        if (!typedAttempt.trim()) return;
+
+        setHeardText(typedAttempt.trim());
+
+        const normalized = typedAttempt.toLowerCase().trim();
+
+        if (pronunciation.wrongAttempts.some(w => normalized.includes(w) || w.includes(normalized))) {
+            setState('roast');
+            setRoastLoading(true);
+            fetch('/api/roast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ attempt: typedAttempt.trim() }),
+            })
+                .then(res => res.json())
+                .then(data => { setRoast(data.roast); setRoastLoading(false); })
+                .catch(() => { setRoast("Even the roast generator is speechless at how badly you mangled that. Try again."); setRoastLoading(false); });
+            setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+            return;
+        }
+
+        if (pronunciation.acceptableAttempts.some(a => normalized === a.toLowerCase().trim())) {
+            setState('success');
+            setStats(prev => ({ total: prev.total + 1, correct: prev.correct + 1 }));
+            fetch('/api/stats', { method: 'POST' }).catch(() => {});
+        } else {
+            setState('roast');
+            setRoastLoading(true);
+            fetch('/api/roast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ attempt: typedAttempt.trim() }),
+            })
+                .then(res => res.json())
+                .then(data => { setRoast(data.roast); setRoastLoading(false); })
+                .catch(() => { setRoast("Even the roast generator is speechless at how badly you mangled that. Try again."); setRoastLoading(false); });
+            setStats(prev => ({ total: prev.total + 1, correct: prev.correct }));
+        }
+    }, [typedAttempt]);
+
     const handleMicClick = useCallback(() => {
         if (state === 'success' || state === 'roast') {
             reset();
             setState('idle');
             setRoast('');
+            setHeardText('');
             return;
         }
         if (isListening) {
@@ -132,6 +183,14 @@ export default function NameHero() {
             return newCount;
         });
     }, []);
+
+    const handleReset = useCallback(() => {
+        reset();
+        setState('idle');
+        setRoast('');
+        setHeardText('');
+        setTypedAttempt('');
+    }, [reset]);
 
     return (
         <section
@@ -215,14 +274,57 @@ export default function NameHero() {
                             exit={{ opacity: 0, y: -10 }}
                             className="flex flex-col items-start gap-6"
                         >
+                            {isSupported && (
+                                <button
+                                    onClick={handleMicClick}
+                                    className="group flex items-center gap-4 px-8 py-4 border-2 border-accent text-ink hover:bg-accent hover:text-sand transition-all duration-300 rounded-full text-lg font-medium"
+                                >
+                                    <Mic size={24} className="group-hover:scale-110 transition-transform" />
+                                    <span>Try saying it</span>
+                                </button>
+                            )}
+
                             <button
-                                onClick={handleMicClick}
-                                disabled={!isSupported}
-                                className="group flex items-center gap-4 px-8 py-4 border-2 border-accent text-ink hover:bg-accent hover:text-sand transition-all duration-300 rounded-full text-lg font-medium"
+                                onClick={() => setShowKeyboard(!showKeyboard)}
+                                className="group flex items-center gap-3 px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-all duration-300 rounded-full text-sm font-medium"
                             >
-                                <Mic size={24} className="group-hover:scale-110 transition-transform" />
-                                <span>{isSupported ? 'Try saying it' : 'Speech recognition not available in this browser'}</span>
+                                <Keyboard size={16} />
+                                Or type it out
                             </button>
+
+                            <AnimatePresence>
+                                {showKeyboard && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="w-full max-w-md overflow-hidden"
+                                    >
+                                        <div className="flex gap-2">
+                                            <input
+                                                type="text"
+                                                value={typedAttempt}
+                                                onChange={(e) => setTypedAttempt(e.target.value)}
+                                                onKeyDown={(e) => e.key === 'Enter' && handleTypedSubmit()}
+                                                placeholder="Type how you think it's pronounced..."
+                                                className="flex-1 px-4 py-3 bg-surface-elevated border border-border rounded-xl text-ink text-sm placeholder:text-mist/50 focus:outline-none focus:border-accent"
+                                            />
+                                            <button
+                                                onClick={handleTypedSubmit}
+                                                className="px-6 py-3 bg-accent text-sand rounded-xl text-sm font-medium hover:bg-accent-light transition-colors"
+                                            >
+                                                Go
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            {!isSupported && (
+                                <p className="text-sm text-mist">
+                                    Speech recognition isn&apos;t available in this browser. Try Chrome or Edge, or type your attempt above.
+                                </p>
+                            )}
 
                             <p className="text-sm text-mist">
                                 {stats.correct} of {stats.total} people got it right
@@ -287,7 +389,7 @@ export default function NameHero() {
                                     Get your certificate
                                 </button>
                                 <button
-                                    onClick={handleMicClick}
+                                    onClick={handleReset}
                                     className="flex items-center gap-2 px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-full text-sm"
                                 >
                                     <RotateCcw size={14} />
@@ -309,6 +411,12 @@ export default function NameHero() {
                             exit={{ opacity: 0 }}
                             className="flex flex-col items-start gap-4 max-w-lg"
                         >
+                            {heardText && (
+                                <p className="text-sm text-mist/60">
+                                    You said: <span className="text-ink font-medium">&quot;{heardText}&quot;</span>
+                                </p>
+                            )}
+
                             <div className="bg-surface-elevated border border-border rounded-2xl p-6">
                                 {roastLoading ? (
                                     <div className="flex items-center gap-3">
@@ -322,7 +430,7 @@ export default function NameHero() {
 
                             <div className="flex flex-wrap gap-3">
                                 <button
-                                    onClick={handleMicClick}
+                                    onClick={handleReset}
                                     className="flex items-center gap-2 px-6 py-3 bg-accent text-sand rounded-full text-sm font-medium hover:bg-accent-light transition-colors"
                                 >
                                     <Mic size={14} />

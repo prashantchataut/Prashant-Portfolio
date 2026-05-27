@@ -5,12 +5,18 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 interface SpeechRecognitionResult {
     transcript: string;
     confidence: number;
+    alternatives: Array<{ transcript: string; confidence: number }>;
     isListening: boolean;
     isSupported: boolean;
     startListening: () => void;
     stopListening: () => void;
     error: string | null;
     reset: () => void;
+}
+
+interface SpeechRecognitionResultItem {
+    transcript: string;
+    confidence: number;
 }
 
 interface SpeechRecognitionEvent {
@@ -26,12 +32,13 @@ interface SpeechRecognitionInstance {
     interimResults: boolean;
     lang: string;
     maxAlternatives: number;
-    onstart: () => void;
-    onresult: (event: SpeechRecognitionEvent) => void;
-    onerror: (event: SpeechRecognitionErrorEvent) => void;
-    onend: () => void;
+    onstart: (() => void) | null;
+    onresult: ((event: SpeechRecognitionEvent) => void) | null;
+    onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+    onend: (() => void) | null;
     start: () => void;
     stop: () => void;
+    abort: () => void;
 }
 
 function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
@@ -43,6 +50,7 @@ function getSpeechRecognition(): (new () => SpeechRecognitionInstance) | null {
 export function useSpeechRecognition(): SpeechRecognitionResult {
     const [transcript, setTranscript] = useState('');
     const [confidence, setConfidence] = useState(0);
+    const [alternatives, setAlternatives] = useState<Array<{ transcript: string; confidence: number }>>([]);
     const [isListening, setIsListening] = useState(false);
     const [isSupported, setIsSupported] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -55,19 +63,20 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
     const startListening = useCallback(() => {
         const SpeechRecognitionConstructor = getSpeechRecognition();
         if (!SpeechRecognitionConstructor) {
-            setError('Speech recognition is not supported in this browser. Try Chrome or Edge.');
+            setError('Speech recognition is not supported in this browser. Try Chrome or Edge, or type your attempt below.');
             return;
         }
 
         setError(null);
         setTranscript('');
         setConfidence(0);
+        setAlternatives([]);
 
         const recognition = new SpeechRecognitionConstructor();
         recognition.continuous = false;
         recognition.interimResults = false;
         recognition.lang = 'en-US';
-        recognition.maxAlternatives = 5;
+        recognition.maxAlternatives = 10;
 
         recognition.onstart = () => {
             setIsListening(true);
@@ -75,10 +84,24 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
 
         recognition.onresult = (event: SpeechRecognitionEvent) => {
             const result = event.results[0];
-            const transcriptText = (result as unknown as { [key: number]: { transcript: string; confidence: number } })[0].transcript.toLowerCase().trim();
-            const conf = (result as unknown as { [key: number]: { transcript: string; confidence: number } })[0].confidence;
-            setTranscript(transcriptText);
-            setConfidence(conf);
+            const mainTranscript = (result as unknown as { [key: number]: SpeechRecognitionResultItem })[0].transcript.toLowerCase().trim();
+            const mainConfidence = (result as unknown as { [key: number]: SpeechRecognitionResultItem })[0].confidence;
+
+            const alts: Array<{ transcript: string; confidence: number }> = [];
+            const length = (result as unknown as { length: number }).length ?? 1;
+            for (let i = 1; i < length; i++) {
+                const alt = (result as unknown as { [key: number]: SpeechRecognitionResultItem })[i];
+                if (alt) {
+                    alts.push({
+                        transcript: alt.transcript.toLowerCase().trim(),
+                        confidence: alt.confidence,
+                    });
+                }
+            }
+
+            setTranscript(mainTranscript);
+            setConfidence(mainConfidence);
+            setAlternatives(alts);
             setIsListening(false);
         };
 
@@ -109,8 +132,9 @@ export function useSpeechRecognition(): SpeechRecognitionResult {
     const reset = useCallback(() => {
         setTranscript('');
         setConfidence(0);
+        setAlternatives([]);
         setError(null);
     }, []);
 
-    return { transcript, confidence, isListening, isSupported, startListening, stopListening, error, reset };
+    return { transcript, confidence, alternatives, isListening, isSupported, startListening, stopListening, error, reset };
 }
