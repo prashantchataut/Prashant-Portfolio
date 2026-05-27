@@ -64,11 +64,12 @@ export default function NameHero() {
     const [roastLoading, setRoastLoading] = useState(false);
     const [tapCount, setTapCount] = useState(0);
     const [showEasterEgg, setShowEasterEgg] = useState(false);
-    const [stats, setStats] = useState({ total: 847, correct: 312 });
+    const [stats, setStats] = useState({ total: 0, correct: 0 });
     const [showKeyboard, setShowKeyboard] = useState(false);
     const [typedAttempt, setTypedAttempt] = useState('');
     const [heardText, setHeardText] = useState('');
     const [showDisclaimer, setShowDisclaimer] = useState(false);
+    const [showSpicyConfirm, setShowSpicyConfirm] = useState(false);
     const [pendingRoast, setPendingRoast] = useState<{ transcript: string; confidence: number; alternatives: Array<{ transcript: string; confidence: number }> } | null>(null);
     const nameRef = useRef<HTMLHeadingElement>(null);
     const tapTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -137,6 +138,7 @@ export default function NameHero() {
             setHeardText('');
             setPendingRoast(null);
             setShowDisclaimer(false);
+            setShowSpicyConfirm(false);
             return;
         }
         if (isListening) {
@@ -154,6 +156,11 @@ export default function NameHero() {
 
     const handleAcceptDisclaimer = useCallback(() => {
         setShowDisclaimer(false);
+        setShowSpicyConfirm(true);
+    }, []);
+
+    const handleConfirmSpicy = useCallback(() => {
+        setShowSpicyConfirm(false);
         setState('roast');
         setRoastLoading(true);
         const attempt = pendingRoast?.transcript || heardText;
@@ -218,6 +225,7 @@ export default function NameHero() {
         setTypedAttempt('');
         setPendingRoast(null);
         setShowDisclaimer(false);
+        setShowSpicyConfirm(false);
     }, [reset]);
 
     return (
@@ -504,7 +512,7 @@ export default function NameHero() {
                                 <h3 className="text-lg font-serif text-ink">You said it wrong. Now you pay.</h3>
                             </div>
                             <p className="text-mist text-sm leading-relaxed mb-4">
-                                Choose your fate. One has gaaliyan, one doesn't. Both will hurt your feelings.
+                                Choose your fate. One has swearing, one doesn't. Both will hurt your feelings.
                             </p>
                             <div className="flex gap-3">
                                 <button
@@ -518,6 +526,54 @@ export default function NameHero() {
                                     className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-xl text-sm"
                                 >
                                     I'll take the light version
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {showSpicyConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 bg-black/60 z-40 flex items-center justify-center p-4"
+                        onClick={() => setShowSpicyConfirm(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+                            className="bg-surface border-2 border-red-500/40 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center">
+                                    <Skull size={20} className="text-red-500" />
+                                </div>
+                                <h3 className="text-lg font-serif text-ink">Last chance to back out.</h3>
+                            </div>
+                            <p className="text-mist text-sm leading-relaxed mb-2">
+                                This is the real deal. No holding back. Full disrespect, heavy swearing, hindi cursing — the works.
+                            </p>
+                            <p className="text-mist/60 text-xs leading-relaxed mb-6">
+                                You asked for this. Don't cry later.
+                            </p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={handleConfirmSpicy}
+                                    className="flex-1 px-6 py-3 bg-red-500 text-white rounded-xl text-sm font-medium hover:bg-red-600 transition-colors"
+                                >
+                                    Do it. I can take it.
+                                </button>
+                                <button
+                                    onClick={handleDeclineDisclaimer}
+                                    className="px-6 py-3 border border-border text-mist hover:border-accent hover:text-ink transition-colors rounded-xl text-sm"
+                                >
+                                    Actually, go easy
                                 </button>
                             </div>
                         </motion.div>

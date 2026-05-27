@@ -70,7 +70,7 @@ export default function SiteReview() {
                 <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
                     <Check size={24} className="text-sand" />
                 </div>
-                <p className="text-ink font-serif text-lg mb-1">Got it. Roast appreciated.</p>
+                <p className="text-ink font-serif text-lg mb-1">Got it. Appreciate it, boss.</p>
                 <p className="text-mist text-sm">Your review has been recorded.</p>
             </motion.div>
         );

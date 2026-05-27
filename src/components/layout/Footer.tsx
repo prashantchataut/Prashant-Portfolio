@@ -73,7 +73,10 @@ export default function Footer() {
 
                 <div className="border-t border-border pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-mist/60">
                     <p>&copy; {currentYear} Prashant Chataut. /pruh-SHAANT/</p>
-                    <p>Built at 17.</p>
+                    <p className="flex items-center gap-1.5">
+                        Built at 17.
+                        <Link href="/writes" className="inline-block w-1.5 h-1.5 rounded-full bg-mist/30 hover:bg-accent transition-colors duration-500" aria-label="Writes" />
+                    </p>
                 </div>
             </div>
         </footer>

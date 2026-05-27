@@ -21,7 +21,52 @@ const VEG_ROASTS = [
     "that mess of a pronunciation proves you're the type who fails at easy stuff and still acts like you're competent.",
 ];
 
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW = 60 * 1000;
+const RATE_LIMIT_MAX = 5;
+
+function getClientIp(request: NextRequest): string {
+    return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+        || request.headers.get('x-real-ip')
+        || 'unknown';
+}
+
+function isRateLimited(ip: string): boolean {
+    const now = Date.now();
+    const entry = rateLimitMap.get(ip);
+
+    if (!entry || now > entry.resetTime) {
+        rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+        return false;
+    }
+
+    entry.count += 1;
+    if (entry.count > RATE_LIMIT_MAX) {
+        return true;
+    }
+
+    return false;
+}
+
+setInterval(() => {
+    const now = Date.now();
+    rateLimitMap.forEach((entry, ip) => {
+        if (now > entry.resetTime) {
+            rateLimitMap.delete(ip);
+        }
+    });
+}, RATE_LIMIT_WINDOW);
+
 export async function POST(request: NextRequest) {
+    const ip = getClientIp(request);
+
+    if (isRateLimited(ip)) {
+        return NextResponse.json(
+            { roast: "Slow down. Even your mouth needs a break. Try again in a minute." },
+            { status: 429 }
+        );
+    }
+
     try {
         const { attempt, spicy } = await request.json();
 
