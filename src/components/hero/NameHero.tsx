@@ -8,6 +8,11 @@ import { pronunciation, hero } from '@/data/content';
 
 function checkPronunciation(transcript: string): boolean {
     const normalized = transcript.toLowerCase().trim();
+
+    if (pronunciation.wrongAttempts.some(w => normalized.includes(w) || w.includes(normalized))) {
+        return false;
+    }
+
     return pronunciation.acceptableAttempts.some(
         (attempt) => {
             const normalizedAttempt = attempt.toLowerCase().trim();
