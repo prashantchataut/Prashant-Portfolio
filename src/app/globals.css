@@ -22,10 +22,10 @@
 [data-theme="dark"] {
     --sand: #0C0A09;
     --ink: #F5F0EB;
-    --mist: #9C9488;
-    --accent: #F59E0B;
-    --accent-light: #FBBF24;
-    --accent-glow: rgba(245, 158, 11, 0.12);
+    --mist: #A8A099;
+    --accent: #FBBF24;
+    --accent-light: #FCD34D;
+    --accent-glow: rgba(251, 191, 36, 0.12);
     --slate: #1C1917;
     --ash: #141210;
     --surface: #0C0A09;
@@ -97,6 +97,14 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
     border-radius: 2px;
+}
+
+.text-wrap-balance {
+    text-wrap: balance;
+}
+
+.text-pretty {
+    text-wrap: pretty;
 }
 
 /* Reduced motion */

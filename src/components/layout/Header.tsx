@@ -3,16 +3,21 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, Github, Instagram } from 'lucide-react';
 import { site } from '@/data/config';
 import { cn } from '@/lib/utils';
 import { useTheme } from '../providers/ThemeProvider';
 
 const navLinks = [
+    { name: 'Work', href: '#work' },
     { name: 'About', href: '#about' },
-    { name: 'Work', href: '#prody' },
-    { name: 'Skills', href: '#skills' },
+    { name: 'Approach', href: '#skills' },
     { name: 'Contact', href: '#contact' },
+];
+
+const socialLinks = [
+    { name: 'GitHub', href: site.links.github, icon: Github },
+    { name: 'Instagram', href: site.links.instagram, icon: Instagram },
 ];
 
 export default function Header() {
@@ -54,9 +59,22 @@ export default function Header() {
 
                         <div className="w-px h-5 bg-border mx-2" />
 
+                        {socialLinks.map(({ name, href, icon: Icon }) => (
+                            <a
+                                key={name}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 rounded-full text-mist hover:text-ink hover:bg-surface-elevated transition-all duration-300 cursor-pointer"
+                                aria-label={name}
+                            >
+                                <Icon size={16} />
+                            </a>
+                        ))}
+
                         <button
                             onClick={toggleTheme}
-                            className="p-2 rounded-full text-mist hover:text-ink hover:bg-surface-elevated transition-all duration-300"
+                            className="p-2 rounded-full text-mist hover:text-ink hover:bg-surface-elevated transition-all duration-300 cursor-pointer"
                             aria-label="Toggle theme"
                         >
                             {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
@@ -64,23 +82,35 @@ export default function Header() {
 
                         <a
                             href={site.links.email}
-                            className="ml-2 px-5 py-2.5 border border-border text-mist rounded-full text-sm font-medium hover:border-accent hover:text-ink transition-all duration-300"
+                            className="ml-2 px-5 py-2.5 border border-border text-mist rounded-full text-sm font-medium hover:border-accent hover:text-ink transition-all duration-300 cursor-pointer"
                         >
-                            Email me
+                            Email
                         </a>
                     </nav>
 
-                    <div className="flex items-center gap-2 md:hidden">
+                    <div className="flex items-center gap-1 md:hidden">
+                        {socialLinks.map(({ name, href, icon: Icon }) => (
+                            <a
+                                key={name}
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-mist hover:text-ink transition-colors cursor-pointer"
+                                aria-label={name}
+                            >
+                                <Icon size={18} />
+                            </a>
+                        ))}
                         <button
                             onClick={toggleTheme}
-                            className="p-2 text-mist hover:text-ink transition-colors"
+                            className="p-2 text-mist hover:text-ink transition-colors cursor-pointer"
                             aria-label="Toggle theme"
                         >
                             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
                         </button>
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="p-2 text-ink"
+                            className="p-2 text-ink cursor-pointer"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -123,22 +153,17 @@ export default function Header() {
                             transition={{ delay: 0.3 }}
                             className="flex gap-4 mt-12"
                         >
-                            <a
-                                href={site.links.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-5 py-2.5 border border-border rounded-full text-sm text-mist hover:border-accent hover:text-ink transition-all"
-                            >
-                                GitHub
-                            </a>
-                            <a
-                                href={site.links.instagram}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-5 py-2.5 border border-border rounded-full text-sm text-mist hover:border-accent hover:text-ink transition-all"
-                            >
-                                Instagram
-                            </a>
+                            {socialLinks.map(({ name, href }) => (
+                                <a
+                                    key={name}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="px-5 py-2.5 border border-border rounded-full text-sm text-mist hover:border-accent hover:text-ink transition-all cursor-pointer"
+                                >
+                                    {name}
+                                </a>
+                            ))}
                         </motion.div>
 
                         <motion.div
@@ -150,9 +175,9 @@ export default function Header() {
                             <a
                                 href={site.links.email}
                                 onClick={() => setIsOpen(false)}
-                                className="px-6 py-3 border border-border text-mist rounded-full text-sm font-medium hover:border-accent hover:text-ink transition-colors"
+                                className="px-6 py-3 border border-border text-mist rounded-full text-sm font-medium hover:border-accent hover:text-ink transition-colors cursor-pointer"
                             >
-                                Email me
+                                Email
                             </a>
                         </motion.div>
                     </motion.div>

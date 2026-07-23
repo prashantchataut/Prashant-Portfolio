@@ -15,10 +15,7 @@ export default function Philosophy() {
                     viewport={{ once: true }}
                     className="mb-16"
                 >
-                    <p className="text-xs font-bold tracking-[0.3em] uppercase text-accent font-sans mb-4">
-                        Philosophy
-                    </p>
-                    <h2 className="text-4xl sm:text-6xl font-serif text-ink tracking-tight">
+                    <h2 className="text-4xl sm:text-6xl font-serif text-ink tracking-tight text-wrap-balance">
                         {philosophy.sectionTitle}
                     </h2>
                 </motion.div>

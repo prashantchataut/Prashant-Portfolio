@@ -1,81 +1,43 @@
-export const pronunciation = {
-    name: "Prashant Chataut",
-    devanagari: "प्रशान्त",
-    phonetic: "/pruh-SHAANT/",
-    phoneticFull: "/pruh-SHAANT chuh-TOUT/",
-    audioSrc: "/audio/prashant-pronunciation.wav",
-    flickerWords: ["butcher", "mispronounce", "ruin", "destroy", "mangle", "murder", "wreck"],
-    hint: "My biggest ick? People who {word} my name. Don't be a shitbag like them.",
-    acceptableAttempts: [
-        "prashant",
-        "prashant chataut",
-        "prashaant",
-        "prashaanth",
-        "prashanth",
-        "prashant chattout",
-        "prashant chataut",
-    ],
-    wrongAttempts: [
-        "parshant",
-        "parshant chataut",
-        "pashant",
-        "preshant",
-        "pruhshunth",
-    ],
-    roastPrompt: `Someone just tried to pronounce "Prashant Chataut" (/pruh-SHAANT chuh-TOUT/) and said "{attempt}". Roast the absolute shit out of them. Be raw, be personal, be mean. Talk like a real person who's genuinely pissed off — not a comedian doing a bit, not a polite AI, not a standup routine. No "bevakoof" energy, no setup-punchline format. Just straight disrespect. Make it sting. Mix Hindi naturally if you want (gaaliyan, maa-behen, chutiya, bhosdike — real Hindi cursing, not textbook Hindi). Keep it to 1-2 lines max. Make the roast specific to what they said wrong. Example vibes: "parshant? bhai tera phone bhi autocorrect give up kar deta hai tu itna bhosdika naam bolta hai" or "you said it like you've never met a vowel in your life chutiye". Don't do the polite roast thing. Don't say "ahem" or use em dashes. Just destroy them.`,
-    successMessage: "You said it right. Most people don't. You're officially certified.",
-    certificateTitle: "Certificate of Pronunciation Competence",
-    certificateBody: "This certifies that {name} has successfully pronounced \"Prashant Chataut\" correctly on {date}, demonstrating phonetic abilities that place them in the top percentile of the general population. This person can now safely introduce Prashant at parties without embarrassment.",
-    easterEgg: {
-        trigger: "triple-tap the name title",
-        message: "You found it. Prashant built this at 17. What were you doing at 17?",
-    },
-};
-
-export const birthday = {
-    date: "2009-05-27",
-    age: 17,
-    name: "Prashant",
-    whatsappNumber: "9779761488159",
-    instagramLink: "https://instagram.com/prashantchataut_",
-    message: "HEY IT'S MY BIRTHDAY TODAY! Wish me asapppppp! Don't even think about scrolling past this.",
-    celebrationDurationDays: 7,
-};
-
 export const hero = {
-    greeting: "You've been saying it wrong.",
+    greeting: "Hey, I'm",
     name: "Prashant Chataut",
-    subtext: "Not Parshant. Not Pashant. Not Pruh-shunth. Pruh-shaant. My biggest ick is people who can't say it right. Don't be that person.",
-    cta: "Try saying it",
-    subtitle: "17. Building AI companions that don't make you want to throw your phone.",
+    phonetic: "/pruh-SHAANT/",
+    devanagari: "प्रशान्त",
+    tagline: "I build apps.",
+    subtext:
+        "Based in Nepal. Right now: NEBians (study notes, past papers, forums for students and teachers) and Retra (an Android GBA emulator for old Pokémon games). Also Prody, a quiet journaling app.",
+    primaryCta: { label: "See my work", href: "#work" },
+    secondaryCta: { label: "Open NEBians", href: "https://nebians.consica.com.np/" },
+    tertiaryCta: { label: "GitHub", href: "https://github.com/prashantchataut" },
 };
 
 export const philosophy = {
-    sectionTitle: "What I believe.",
+    sectionTitle: "How I work.",
     items: [
         {
-            title: "Software should shut up.",
-            body: "Most apps demand your attention like a toddler. I build things that respect your time, your mental space, and your ability to think without a notification every 4 seconds.",
+            title: "Put it in someone's hands.",
+            body: "I don't keep ideas in notes forever. NEBians is on Play Store. Retra is on GitHub. If nobody can open it, it's still just a draft.",
         },
         {
-            title: "Growth isn't a project.",
-            body: "Self-improvement apps that gamify your anxiety aren't helping. Prody doesn't give you streaks to break. It gives you patterns to notice. That's the difference.",
+            title: "Fewer notifications.",
+            body: "I get annoyed by apps that ping you for nothing. So I try not to build that. Open it when you want. Close it when you're done.",
         },
         {
-            title: "17 is not a limitation.",
-            body: "I started building at 14. Age is irrelevant when the internet doesn't ask for your birth certificate. Ship things. Learn things. Repeat.",
+            title: "Solve a real mess.",
+            body: "Class notes stuck in WhatsApp. Saves lost mid-game. Journals that turn into streak guilt. That's the stuff I pick.",
         },
     ],
 };
 
 export const about = {
-    sectionTitle: "Who is this person.",
+    sectionTitle: "About me.",
     body: [
-        "I'm Prashant. I build software that doesn't make you want to scream. I started Prody when I was 15 because every self-improvement app felt like homework designed by someone who'd never struggled with anything.",
-        "I care about cognitive psychology, mental health, and the fact that most software is hostile to the people using it. I'm 17. I build in Nepal. I read about brains for fun.",
+        "I make mobile and web apps. Design, code, ship. Mostly solo, sometimes with people who care about the same problem.",
+        "NEBians is the big one: students upload notes and past papers, ask questions on the forum, check exam updates. Retra is me rebuilding the Game Boy Advance games I used to play. Prody is for writing and reflecting without a streak counter yelling at you.",
+        "I live and work in Nepal. If you want to talk about a project, email works.",
     ],
     photoSrc: "/images/prashant-photo.jpg",
-    photoAlt: "Prashant Chataut, developer and product builder",
+    photoAlt: "Prashant Chataut",
     links: {
         github: "https://github.com/prashantchataut",
         instagram: "https://instagram.com/prashantchataut_",
@@ -83,24 +45,76 @@ export const about = {
     },
 };
 
-export const prody = {
-    sectionTitle: "What I'm building.",
-    tagline: "Prody doesn't want to be your project.",
-    description: "A self-improvement companion that doesn't gamify your anxiety. Journal, learn, schedule messages to your future self, and notice patterns in your thinking over time. No streaks. No guilt. Just you, getting better, at your own pace.",
+export const nebians = {
+    id: "nebians",
+    name: "NEBians",
+    tagline: "Notes, papers, forums for school.",
+    description:
+        "Students, teachers, and institutes share study materials and talk on the forum. Web + Android. Live on Google Play.",
+    status: "On Play Store",
     features: [
-        "Journal that doesn't judge you for writing three words",
-        "AI companion that guides reflection without preaching",
-        "Messages to your future self — because sometimes you need to hear from past you",
-        "Pattern recognition that shows you what you can't see alone",
-        "Anti-Stop Policy: the AI degrades gracefully, it doesn't just die",
+        "Upload and browse notes, textbooks, past papers, videos",
+        "Forum for questions and class talk",
+        "Exam news and Class 12 / SEE result tools",
+        "Roadmap: offline downloads, richer media, tutor spaces",
     ],
-    status: "Active, v1.3 in progress",
-    github: "https://github.com/prashantchataut/Prody/releases/latest",
+    links: {
+        live: "https://nebians.consica.com.np/",
+        playStore: "https://play.google.com/store/apps/details?id=com.neb.ians",
+        instagram: "https://www.instagram.com/the_nebians",
+    },
+    images: [
+        { src: "/images/nebians/home.png", alt: "NEBians home screen with resources and discussions" },
+        { src: "/images/nebians/shot-1.jpg", alt: "NEBians app screenshot" },
+        { src: "/images/nebians/shot-2.jpg", alt: "NEBians app screenshot" },
+        { src: "/images/nebians/shot-4.jpg", alt: "NEBians app screenshot" },
+    ],
+};
+
+export const retra = {
+    id: "retra",
+    name: "Retra",
+    tagline: "GBA games on your phone.",
+    description:
+        "Android emulator for Game Boy Advance. FireRed, Heart & Soul, Ash Gray, that whole era. Kotlin, Compose, mGBA. Still building it.",
+    status: "In development",
+    features: [
+        "Map a real gamepad per game and test inputs live",
+        "Named save checkpoints you can restore",
+        "FPS and frame-time stats after you play a bit",
+        "You bring your own ROMs. Nothing commercial is bundled.",
+    ],
+    links: {
+        github: "https://github.com/prashantchataut/Retra",
+    },
+};
+
+export const prody = {
+    id: "prody",
+    name: "Prody",
+    tagline: "Journal without the streak guilt.",
+    description:
+        "Write a few lines, talk to a calm AI companion, send notes to future-you. No streaks. No badges for opening the app.",
+    status: "Active",
+    features: [
+        "Journal that is fine with three words",
+        "Reflection prompts that don't lecture",
+        "Schedule a message to yourself later",
+        "Patterns over time, not daily pressure",
+    ],
+    links: {
+        github: "https://github.com/prashantchataut/Prody/releases/latest",
+    },
+    images: [
+        { src: "/images/prody2.png", alt: "Prody future-self message screen" },
+        { src: "/images/prody1.png", alt: "Prody journal screen" },
+    ],
 };
 
 export const site = {
     title: "Prashant Chataut",
-    description: "Developer & product builder. 17. Building Prody — AI companions that respect your time. Pronounced /pruh-SHAANT/.",
+    description:
+        "Prashant Chataut builds NEBians, Retra, and Prody. Apps for school, GBA games, and journaling. From Nepal.",
     url: "https://knowprashant.vercel.app",
     links: {
         github: "https://github.com/prashantchataut",

@@ -27,18 +27,26 @@ const notoDevanagari = Noto_Sans_Devanagari({
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://knowprashant.vercel.app'),
-    title: 'Prashant Chataut — /pruh-SHAANT/',
-    description: 'Developer & product builder. 17. Building Prody — AI companions that respect your time. Pronounced /pruh-SHAANT/ (shaant = peaceful).',
-    keywords: ['Prashant Chataut', 'Prashant', 'Prody', 'developer Nepal', 'AI companion', 'self-improvement app', 'pruh-SHAANT'],
+    title: 'Prashant Chataut',
+    description:
+        'Prashant Chataut builds NEBians, Retra, and Prody from Nepal. Study apps, a GBA emulator, and quiet journaling.',
+    keywords: [
+        'Prashant Chataut',
+        'NEBians',
+        'Retra',
+        'Prody',
+        'developer Nepal',
+        'study platform',
+    ],
     authors: [{ name: 'Prashant Chataut' }],
     creator: 'Prashant Chataut',
     icons: { icon: '/icon.png' },
     openGraph: {
-        title: 'Prashant Chataut — /pruh-SHAANT/',
-        description: 'Developer & product builder. 17. Building Prody. Pronounced /pruh-SHAANT/ (shaant = peaceful, not shunth).',
+        title: 'Prashant Chataut',
+        description: 'Builds NEBians, Retra, and Prody. Apps for school, GBA games, and journaling.',
         url: 'https://knowprashant.vercel.app',
         siteName: 'Prashant Chataut',
-        images: [{ url: '/og-image.png', width: 1200, height: 630 }],
+        type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
@@ -61,7 +69,8 @@ export default function RootLayout({
                 '@id': 'https://knowprashant.vercel.app/#website',
                 url: 'https://knowprashant.vercel.app',
                 name: 'Prashant Chataut',
-                description: 'Developer & product builder. Building Prody.',
+                description:
+                    'Prashant Chataut builds NEBians, Retra, and Prody from Nepal.',
             },
             {
                 '@type': 'Person',
@@ -72,26 +81,29 @@ export default function RootLayout({
                     'https://github.com/prashantchataut',
                     'https://instagram.com/prashantchataut_',
                 ],
-                jobTitle: 'Developer & Product Builder',
-                description: '17-year-old developer from Nepal building Prody, an AI self-improvement companion.',
-                knowsAbout: ['React Native', 'AI', 'Mental Health', 'Mobile Development', 'Product Design'],
+                jobTitle: 'Developer',
+                description: 'Builds NEBians, Retra, and Prody from Nepal.',
+                knowsAbout: [
+                    'Mobile Development',
+                    'Product Design',
+                    'Education Technology',
+                    'Android',
+                    'React Native',
+                ],
             },
             {
                 '@type': 'SoftwareApplication',
-                name: 'Prody',
-                applicationCategory: 'LifestyleApplication',
-                operatingSystem: 'iOS, Android',
-                description: 'A self-improvement companion. Journal, learn, schedule messages to your future self, and see patterns in your thinking over time.',
-                url: 'https://github.com/prashantchataut/Prody',
+                name: 'NEBians',
+                applicationCategory: 'EducationalApplication',
+                operatingSystem: 'Android, Web',
+                description:
+                    'Study notes, past papers, and forums for students, teachers, and institutes.',
+                url: 'https://nebians.consica.com.np/',
                 offers: {
                     '@type': 'Offer',
                     price: '0',
                     priceCurrency: 'USD',
                 },
-            },
-            {
-                '@type': 'SpeakableSpecification',
-                cssSelector: ['#pronunciation-section'],
             },
         ],
     };

@@ -1,13 +1,15 @@
-import { site, hero, pronunciation, birthday, philosophy, about, prody } from './content';
+import { site, hero, philosophy, about, nebians, retra, prody } from './content';
 
 export const siteConfig = {
-    status: hero.subtitle,
+    status: hero.tagline,
     availableForFreelance: true,
     links: site.links,
     now: [
-        "I'm currently focused on expanding Prody's AI capabilities with deeper empathy layers.",
-        "Outside of code, I'm reading about cognitive psychology and learning about physical interface design.",
+        "NEBians is live on web and Play Store. Fixing Neby so it sounds less like a bot, shipping forum and download improvements, listening to what students ask for.",
+        "Retra is in progress on GitHub. Controller mapping, save checkpoints, and performance stats are the pieces I'm grinding on.",
+        "Prody still gets updates when I have time. Quiet journaling, no streak nonsense.",
+        "Reading about how people form habits for real, not how apps invent them.",
     ],
 };
 
-export { hero, pronunciation, birthday, philosophy, about, prody, site };
+export { hero, philosophy, about, nebians, retra, prody, site };

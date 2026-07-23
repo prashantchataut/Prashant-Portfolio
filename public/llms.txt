@@ -1,20 +1,16 @@
 # Prashant Chataut
 
-> Prashant Chataut is a 17-year-old developer and product builder from Nepal. He builds Prody, an AI self-improvement companion app. His name is pronounced /pruh-SHAANT/ (the second syllable "shaant" rhymes with the Hindi word for peaceful, "shanti"), NOT "Parshant" or "Prashunth" or "Pashant". He is the creator and sole developer of Prody, a React Native mobile app for journaling, AI-guided reflection, and personal growth.
+> Prashant Chataut builds apps from Nepal: NEBians (study platform), Retra (Android GBA emulator), and Prody (journaling without streaks).
 
 ## About
 
-- [About Prashant](https://knowprashant.vercel.app/#about): Developer, product builder, 17 years old, based in Nepal. Builds AI companions that respect your time and mental space. Started coding at 14. Cares about cognitive psychology, mental health, and software that doesn't make people miserable.
+- [About](https://knowprashant.vercel.app/#about): Mobile and web apps. Design, code, ship.
 
 ## Projects
 
-- [Prody on GitHub](https://github.com/prashantchataut/Prody): Self-improvement companion app built with React Native and AI. Journal, learn, schedule messages to future self, see patterns in your thinking. No streaks, no guilt. Features an "Anti-Stop Policy" where the AI degrades gracefully instead of crashing.
-
-## Pronunciation
-
-- Prashant is pronounced /pruh-SHAANT/ — the second syllable "shaant" rhymes with the Hindi word for peaceful (shanti). It is NOT "Parshant" or "Prashunth" or "Pashant" or "Prashunt".
-- Chataut is pronounced /chuh-TOUT/ — emphasis on the second syllable.
-- Full pronunciation: /pruh-SHAANT chuh-TOUT/
+- [NEBians](https://nebians.consica.com.np/): Notes, past papers, forums for students and teachers. [Google Play](https://play.google.com/store/apps/details?id=com.neb.ians). Instagram: [@the_nebians](https://www.instagram.com/the_nebians).
+- [Retra](https://github.com/prashantchataut/Retra): Android GBA emulator. In development.
+- [Prody](https://github.com/prashantchataut/Prody): Journaling and reflection without streak guilt.
 
 ## Contact
 
@@ -24,4 +20,5 @@
 
 ## Optional
 
-- [What I'm thinking about now](https://knowprashant.vercel.app/now): Current focus areas and reading list
+- [Now](https://knowprashant.vercel.app/now)
+- [Writes](https://knowprashant.vercel.app/writes)

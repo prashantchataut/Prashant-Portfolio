@@ -1,11 +1,3 @@
-export interface ChangelogEntry {
-    version: string;
-    title?: string;
-    summary?: string;
-    date?: string;
-    highlights: string[];
-}
-
 export interface Project {
     id: string;
     name: string;
@@ -13,12 +5,11 @@ export interface Project {
     description: string;
     status: "active" | "in-progress" | "archived";
     featured: boolean;
-    version?: string;
-    changelog?: ChangelogEntry[];
     links: {
         github: string | null;
         live: string | null;
-        manifesto?: string | null;
+        playStore?: string | null;
+        instagram?: string | null;
     };
     tags: string[];
     image: string;
@@ -28,27 +19,68 @@ export interface Project {
 
 export const projects: Project[] = [
     {
-        id: "prody",
-        name: "Prody",
-        tagline: "For people who want to grow without making it a project.",
-        description: "A self-improvement companion that doesn't gamify your anxiety. Journal, learn, schedule messages to your future self, and notice patterns in your thinking over time. No streaks. No guilt. Just you, getting better, at your own pace.",
+        id: "nebians",
+        name: "NEBians",
+        tagline: "Notes, papers, forums for school.",
+        description:
+            "Students and teachers share study materials and talk on the forum. Web + Android, on Google Play.",
         status: "active",
         featured: true,
-        version: "1.3.0",
+        links: {
+            github: null,
+            live: "https://nebians.consica.com.np/",
+            playStore: "https://play.google.com/store/apps/details?id=com.neb.ians",
+            instagram: "https://www.instagram.com/the_nebians",
+        },
+        tags: ["Education", "Mobile", "Community", "Nepal"],
+        features: [
+            "Notes, textbooks, past papers, videos",
+            "Forum discussions",
+            "Exam news and result tools",
+        ],
+        image: "/images/nebians/home.png",
+        accentColor: "#2563EB",
+    },
+    {
+        id: "retra",
+        name: "Retra",
+        tagline: "GBA games on your phone.",
+        description:
+            "Android GBA emulator. FireRed, Heart & Soul, Ash Gray. Kotlin, Compose, mGBA. Still in development.",
+        status: "in-progress",
+        featured: true,
+        links: {
+            github: "https://github.com/prashantchataut/Retra",
+            live: null,
+        },
+        tags: ["Android", "Kotlin", "Emulator", "Compose"],
+        features: [
+            "Per-game gamepad mapping",
+            "Save checkpoints",
+            "Frame-time performance stats",
+        ],
+        image: "/images/about-abstract.png",
+        accentColor: "#D97706",
+    },
+    {
+        id: "prody",
+        name: "Prody",
+        tagline: "Journal without the streak guilt.",
+        description:
+            "Write, reflect, message future-you. No streaks. No badges for opening the app.",
+        status: "active",
+        featured: false,
         links: {
             github: "https://github.com/prashantchataut/Prody/releases/latest",
             live: null,
-            manifesto: "#",
         },
-        tags: ["React Native", "AI", "Mental Health", "Mobile"],
+        tags: ["React Native", "AI", "Mental Health"],
         features: [
-            "Journal that doesn't judge you for writing three words",
-            "AI companion that guides reflection without preaching",
-            "Messages to your future self — because sometimes you need to hear from past you",
-            "Pattern recognition that shows you what you can't see alone",
-            "Anti-Stop Policy: the AI degrades gracefully, it doesn't just die",
+            "Short journaling",
+            "Calm reflection prompts",
+            "Messages to future-you",
         ],
-        image: "/assets/changelog/haven_onboarding_showcase.png",
+        image: "/images/prody1.png",
         accentColor: "#D97706",
     },
 ];
