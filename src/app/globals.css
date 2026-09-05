@@ -3,37 +3,60 @@
 @tailwind utilities;
 
 :root {
+    --font-sans: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+    --font-devanagari: 'Noto Sans Devanagari', var(--font-sans), sans-serif;
     --sand: #FAF7F2;
     --ink: #1A1612;
-    --mist: #8A8078;
-    --accent: #D97706;
-    --accent-light: #F59E0B;
-    --accent-glow: rgba(217, 119, 6, 0.15);
+    --mist: #6E655C;
+    --accent: #B45309;
+    --accent-light: #D97706;
+    --accent-glow: rgba(180, 83, 9, 0.16);
     --slate: #E8E2DA;
     --ash: #F0EBE3;
     --surface: #FFFFFF;
     --surface-elevated: #F5F0E8;
-    --border: rgba(26, 22, 18, 0.08);
+    --border: rgba(26, 22, 18, 0.1);
     --gradient-start: #D97706;
     --gradient-mid: #F59E0B;
     --gradient-end: #D97706;
+    --sand-rgb: 250 247 242;
+    --ink-rgb: 26 22 18;
+    --mist-rgb: 110 101 92;
+    --accent-rgb: 180 83 9;
+    --accent-light-rgb: 217 119 6;
+    --ash-rgb: 240 235 227;
+    --surface-rgb: 255 255 255;
+    --surface-elevated-rgb: 245 240 232;
 }
 
 [data-theme="dark"] {
-    --sand: #0C0A09;
-    --ink: #F5F0EB;
-    --mist: #A8A099;
-    --accent: #FBBF24;
-    --accent-light: #FCD34D;
-    --accent-glow: rgba(251, 191, 36, 0.12);
+    --sand: #0B0A08;
+    --ink: #F2EDE5;
+    --mist: #9C948A;
+    --accent: #F5A524;
+    --accent-light: #FFC155;
+    --accent-glow: rgba(245, 165, 36, 0.14);
     --slate: #1C1917;
-    --ash: #141210;
-    --surface: #0C0A09;
-    --surface-elevated: #1C1917;
-    --border: rgba(245, 240, 235, 0.06);
+    --ash: #14110D;
+    --surface: #100E0B;
+    --surface-elevated: #191510;
+    --border: rgba(242, 237, 229, 0.09);
     --gradient-start: #F59E0B;
     --gradient-mid: #D97706;
     --gradient-end: #F59E0B;
+    --sand-rgb: 11 10 8;
+    --ink-rgb: 242 237 229;
+    --mist-rgb: 156 148 138;
+    --accent-rgb: 245 165 36;
+    --accent-light-rgb: 255 193 85;
+    --ash-rgb: 20 17 13;
+    --surface-rgb: 16 14 11;
+    --surface-elevated-rgb: 25 21 16;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -43,6 +66,7 @@ body {
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4, h5, h6, .font-serif {
@@ -55,14 +79,60 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     color: var(--sand);
 }
 
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--sand);
+}
+::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--mist) 40%, transparent);
+    border-radius: 8px;
+    border: 2px solid var(--sand);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* ---------- type helpers ---------- */
 .gradient-text {
     color: var(--accent);
 }
 
+.display {
+    font-family: var(--font-serif), ui-serif, Georgia, serif;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+}
+
+.mono-label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+}
+
+.text-stroke {
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 22%, transparent);
+    color: transparent;
+}
+
+.text-wrap-balance {
+    text-wrap: balance;
+}
+.text-pretty {
+    text-wrap: pretty;
+}
+
+/* ---------- lines & surfaces ---------- */
 .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent 5%, var(--gradient-start), var(--gradient-mid), var(--gradient-end), transparent 95%);
-    opacity: 0.25;
+    background: linear-gradient(90deg, transparent 5%, var(--border), var(--border), transparent 95%);
+}
+
+.hairline {
+    background: var(--border);
 }
 
 .glow-accent {
@@ -70,10 +140,43 @@ h1, h2, h3, h4, h5, h6, .font-serif {
 }
 
 .glow-sm {
-    box-shadow: 0 0 20px var(--accent-glow);
+    box-shadow: 0 0 24px var(--accent-glow);
 }
 
-/* Skip to content */
+/* ---------- line mask reveal ---------- */
+.mask-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+}
+.mask-line > span {
+    display: block;
+    will-change: transform;
+}
+
+/* ---------- marquee ---------- */
+@keyframes marquee-x {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+}
+.marquee-track {
+    animation: marquee-x var(--marquee-duration, 30s) linear infinite;
+}
+.marquee-paused:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+/* ---------- ember flicker for dots ---------- */
+@keyframes ember-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.8); }
+}
+.ember-dot {
+    animation: ember-pulse 2.4s ease-in-out infinite;
+}
+
+/* ---------- skip link ---------- */
 .skip-to-content {
     position: absolute;
     top: -100%;
@@ -87,32 +190,41 @@ h1, h2, h3, h4, h5, h6, .font-serif {
     border-radius: 0 0 0.5rem 0.5rem;
     transition: top 0.2s;
 }
-
 .skip-to-content:focus {
     top: 0;
 }
 
-/* Focus styles */
+/* ---------- focus ---------- */
 :focus-visible {
     outline: 2px solid var(--accent);
-    outline-offset: 2px;
+    outline-offset: 3px;
     border-radius: 2px;
 }
 
-.text-wrap-balance {
-    text-wrap: balance;
+/* ---------- underline sweep for inline links ---------- */
+.link-sweep {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-sweep:hover {
+    background-size: 100% 1px;
 }
 
-.text-pretty {
-    text-wrap: pretty;
-}
-
-/* Reduced motion */
+/* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
     *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
         scroll-behavior: auto !important;
+    }
+    .marquee-track {
+        animation: none !important;
     }
 }

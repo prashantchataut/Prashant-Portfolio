@@ -1,29 +1,13 @@
 import type { Metadata } from 'next';
-import { Sora, Libre_Baskerville, Noto_Sans_Devanagari } from 'next/font/google';
+import '@fontsource-variable/sora';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/noto-sans-devanagari';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import ThemeProvider from '@/components/providers/ThemeProvider';
-
-const sora = Sora({
-    subsets: ['latin'],
-    variable: '--font-sans',
-    display: 'swap',
-});
-
-const libreBaskerville = Libre_Baskerville({
-    weight: ['400', '700'],
-    subsets: ['latin'],
-    variable: '--font-serif',
-    display: 'swap',
-});
-
-const notoDevanagari = Noto_Sans_Devanagari({
-    weight: ['400', '700'],
-    subsets: ['devanagari'],
-    variable: '--font-devanagari',
-    display: 'swap',
-});
+import Noise from '@/components/ui/Noise';
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://knowprashant.vercel.app'),
@@ -109,12 +93,21 @@ export default function RootLayout({
     };
 
     return (
-        <html lang="en" className={`${sora.variable} ${libreBaskerville.variable} ${notoDevanagari.variable}`}>
+        <html lang="en" data-theme="dark">
             <head>
                 <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
             </head>
             <body className="bg-sand text-ink antialiased selection:bg-accent/30 selection:text-ink font-sans">
                 <a href="#main-content" className="skip-to-content">Skip to content</a>
+                <Noise />
+                <div
+                    aria-hidden="true"
+                    className="fixed inset-0 z-0 pointer-events-none"
+                    style={{
+                        background:
+                            'radial-gradient(ellipse 70% 38% at 50% -12%, var(--accent-glow), transparent 62%)',
+                    }}
+                />
                 <ThemeProvider>
                     <Header />
                     <main id="main-content" className="relative z-10 min-h-screen">

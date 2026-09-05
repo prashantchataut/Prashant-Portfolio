@@ -1,74 +1,106 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import Reveal from '@/components/ui/Reveal';
+import Marquee from '@/components/ui/Marquee';
 
 const approaches = [
     {
-        title: "Defaults.",
+        title: 'Defaults.',
         items: [
-            "Start from the problem someone has today",
-            "Ship a rough version before polishing forever",
+            'Start from the problem someone has today',
+            'Ship a rough version before polishing forever',
             "If it needs a long tutorial, the UI is wrong",
         ],
     },
     {
-        title: "Tools.",
+        title: 'Tools.',
         items: [
-            "TypeScript, React, Next.js, React Native",
-            "Kotlin, Jetpack Compose, Node.js, PostgreSQL",
-            "Tailwind, Framer Motion, Figma",
+            'TypeScript, React, Next.js, React Native',
+            'Kotlin, Jetpack Compose, Node.js, PostgreSQL',
+            'Tailwind, Framer Motion, Figma',
         ],
     },
     {
-        title: "Focus.",
+        title: 'Focus.',
         items: [
-            "School and study apps for Nepal",
-            "Emulators and game tooling",
+            'School and study apps for Nepal',
+            'Emulators and game tooling',
             "Apps that don't spam you",
         ],
     },
 ];
 
+const toolbelt = [
+    'TypeScript',
+    'Kotlin',
+    'React Native',
+    'Next.js',
+    'Jetpack Compose',
+    'Node.js',
+    'PostgreSQL',
+    'Tailwind',
+    'Framer Motion',
+    'Three.js',
+    'mGBA',
+    'Figma',
+];
+
 export default function Skills() {
     return (
-        <section id="skills" className="py-24 sm:py-32 relative">
-            <div className="section-divider" />
+        <section id="skills" className="py-24 sm:py-36 relative overflow-hidden">
+            <div className="section-divider absolute inset-x-0 top-0" />
 
-            <div className="max-w-5xl mx-auto px-6 lg:px-8">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="mb-16"
-                >
-                    <h2 className="text-4xl sm:text-6xl font-serif text-ink tracking-tight text-wrap-balance">
-                        Approach.
-                    </h2>
-                    <p className="text-mist text-lg mt-4 max-w-xl">
-                        How I pick what to build, and what I reach for when I do.
-                    </p>
-                </motion.div>
+            <div className="max-w-6xl mx-auto px-6 lg:px-8">
+                <Reveal className="mb-14 sm:mb-20">
+                    <div className="flex items-end justify-between gap-6 flex-wrap">
+                        <div>
+                            <p className="mono-label text-mist mb-4">04 — Approach</p>
+                            <h2 className="display text-ink text-wrap-balance" style={{ fontSize: 'clamp(2.6rem, 6vw, 5rem)' }}>
+                                How I pick <em className="text-accent">&amp; build</em>.
+                            </h2>
+                        </div>
+                        <p className="text-mist max-w-sm leading-relaxed pb-2">
+                            Defaults I fall back on, tools I reach for, and the problems I
+                            care about.
+                        </p>
+                    </div>
+                </Reveal>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-12">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-12">
                     {approaches.map((section, i) => (
-                        <motion.div
-                            key={section.title}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: '-50px' }}
-                            transition={{ delay: i * 0.1 }}
-                        >
-                            <h3 className="text-lg font-serif text-ink mb-4">{section.title}</h3>
-                            <ul className="space-y-3">
-                                {section.items.map((item) => (
-                                    <li key={item} className="text-mist text-sm leading-relaxed">
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </motion.div>
+                        <Reveal key={section.title} delay={0.08 * i}>
+                            <div className="relative pl-6">
+                                <span className="absolute left-0 top-1.5 bottom-2 w-px bg-gradient-to-b from-accent to-transparent" aria-hidden="true" />
+                                <h3 className="text-xl sm:text-2xl display text-ink mb-5">
+                                    {section.title}
+                                </h3>
+                                <ul className="space-y-3.5">
+                                    {section.items.map((item) => (
+                                        <li key={item} className="text-mist text-sm sm:text-[15px] leading-relaxed flex gap-3">
+                                            <span className="text-accent/70 mt-px" aria-hidden="true">✦</span>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </Reveal>
                     ))}
                 </div>
+            </div>
+
+            <div className="mt-20 sm:mt-28 border-y border-border bg-surface/40 backdrop-blur-sm">
+                <Marquee duration={40} className="py-6">
+                    {toolbelt.map((tool) => (
+                        <span key={tool} className="flex items-center">
+                            <span className="px-8 display text-2xl sm:text-4xl text-mist group-hover:text-ink">
+                                {tool}
+                            </span>
+                            <span className="text-accent text-sm" aria-hidden="true">
+                                ✦
+                            </span>
+                        </span>
+                    ))}
+                </Marquee>
             </div>
         </section>
     );
